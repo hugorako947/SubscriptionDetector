@@ -1,0 +1,105 @@
+@import 'tailwindcss';
+
+/* Police libre (OFL), servie par le site lui-même : aucun CDN.
+   Seul le sous-ensemble « latin » est chargé (accents français, €, −, guillemets). */
+@import '@fontsource/atkinson-hyperlegible-next/latin-400.css';
+@import '@fontsource/atkinson-hyperlegible-next/latin-700.css';
+
+/* Jetons sémantiques. Contrastes vérifiés (WCAG) :
+   texte principal ≥ 12:1, texte secondaire ≥ 6:1, texte sur bouton ≥ 6:1. */
+:root {
+  --paper: #f5f7f5;
+  --surface: #ffffff;
+  --ink: #16302a;
+  --muted: #4b605a;
+  --line: #cbd6d1;
+  --accent: #1d6a56;
+  --on-accent: #ffffff;
+  --mark: #f7dd5e;
+  --mark-ink: #16302a;
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #0f1f1b;
+    --surface: #162a25;
+    --ink: #e5eeeb;
+    --muted: #a6bab4;
+    --line: #2e463f;
+    --accent: #73cdb1;
+    --on-accent: #0c1d18;
+    --mark: #e8ce4f;
+  }
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-on-accent: var(--on-accent);
+  --color-mark: var(--mark);
+  --color-mark-ink: var(--mark-ink);
+  --font-sans: 'Atkinson Hyperlegible Next', ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    line-height: 1.5;
+    -webkit-tap-highlight-color: transparent;
+  }
+  :focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Trait de surligneur légèrement irrégulier : l'élément visuel de l'appli. */
+@utility highlight {
+  background-image: linear-gradient(
+    100deg,
+    transparent 0.2em,
+    var(--mark) 0.35em,
+    var(--mark) calc(100% - 0.4em),
+    transparent calc(100% - 0.15em)
+  );
+  background-size: 100% 78%;
+  background-position: 0 60%;
+  background-repeat: no-repeat;
+  color: var(--mark-ink);
+}
+
+/* Marges de sécurité des écrans à encoche (viewport-fit=cover dans index.html). */
+@utility safe-x {
+  padding-left: max(1.25rem, env(safe-area-inset-left));
+  padding-right: max(1.25rem, env(safe-area-inset-right));
+}
+@utility safe-top {
+  padding-top: max(1rem, env(safe-area-inset-top));
+}
+@utility safe-bottom {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
