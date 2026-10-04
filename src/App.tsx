@@ -1,3 +1,10 @@
+import { UpdateBanner } from './pwa/UpdateBanner'
+
 export default function App() {
-  return <main>Détecteur d'abonnements</main>
+  return (
+    <>
+      <UpdateBanner />
+      <main>Détecteur d'abonnements</main>
+    </>
+  )
 }
