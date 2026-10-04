@@ -1,7 +1,7 @@
 /**
  * Simplified sketches of Safari on iPhone (not screenshots of Apple's UI).
  * TODO(vérifier) on a real iPhone, especially iOS 26 where Safari's toolbar changed:
- * position of the Share button and exact labels « Sur l'écran d'accueil », « Ajouter ».
+ * position of the Share button and exact labels « Sur l'écran d'accueil », « Ajouter ».
  */
 const frame = 'w-full max-w-[17rem] rounded-lg border border-line bg-paper'
 

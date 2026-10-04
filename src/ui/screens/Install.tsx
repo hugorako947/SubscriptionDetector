@@ -86,7 +86,7 @@ export function Install() {
         <Steps>
           <Step n={1} title="Touche le bouton Partager">
             <ShareButtonSketch />
-            {/* TODO(vérifier) sur iOS 26 : le bouton Partager peut être dans le menu « ⋯ ». */}
+            {/* TODO(vérifier) sur iOS 26 : le bouton Partager peut être dans le menu « ⋯ ». */}
             <p className="text-muted">Tu ne le vois pas ? Touche d'abord « ⋯ » dans la barre de Safari.</p>
           </Step>
           <Step n={2} title="Choisis « Sur l'écran d'accueil »">
@@ -101,7 +101,7 @@ export function Install() {
 
       {guide === 'ios-other-browser' && (
         <>
-          {/* TODO(vérifier) : Chrome et Firefox sur iPhone proposent peut-être aussi « Sur l'écran d'accueil ». */}
+          {/* TODO(vérifier) : Chrome et Firefox sur iPhone proposent peut-être aussi « Sur l'écran d'accueil ». */}
           <p className="mt-6">Sur iPhone, l'installation se fait depuis Safari. Ouvre cette adresse dans Safari :</p>
           <CopyAddress />
         </>
