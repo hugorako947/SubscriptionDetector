@@ -28,6 +28,8 @@ export default defineConfig({
       // 'prompt' rather than 'autoUpdate': an automatic reload in the middle of
       // an analysis would lose the screenshots being read (never stored).
       registerType: 'prompt',
+      // Icons are already matched by globPatterns below: avoid duplicate precache entries.
+      includeManifestIcons: false,
       // Registration is done from React (src/pwa/UpdateBanner.tsx): no inline script.
       injectRegister: false,
       manifest: {
@@ -51,7 +53,7 @@ export default defineConfig({
       workbox: {
         // Everything needed offline is precached. OCR files (phase 2) will be
         // added here and maximumFileSizeToCacheInBytes raised (Workbox default: 2 MiB).
-        globPatterns: ['**/*.{js,css,html,svg,png,woff2,webmanifest}'],
+        globPatterns: ['**/*.{js,css,html,svg,png,woff2}'],
         navigateFallback: 'index.html',
         cleanupOutdatedCaches: true,
       },
