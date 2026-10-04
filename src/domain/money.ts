@@ -9,6 +9,12 @@ export function formatEuros(cents: number): string {
   return euroFormatter.format(cents / 100)
 }
 
+/** Signed amount with a typographic minus (U+2212), as on bank statements. */
+export function formatSignedEuros(cents: number): string {
+  const sign = cents < 0 ? '\u2212' : '+'
+  return `${sign}${formatEuros(Math.abs(cents))}`
+}
+
 export const YEARLY_FACTOR_FROM_MONTHLY = 12
 
 export function yearlyFromMonthly(monthlyCents: number): number {
