@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Fichiers OCR copiés depuis node_modules au build (phase 2)
+public/ocr/

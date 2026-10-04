@@ -63,6 +63,8 @@ export default defineConfig({
   preview: {
     // The real CSP is applied locally too, so it is tested before every deploy.
     headers: securityHeaders,
+    // Free Cloudflare quick tunnel used to test on a phone over HTTPS (docs/deploiement.md).
+    allowedHosts: ['.trycloudflare.com'],
   },
   test: {
     environment: 'node',
