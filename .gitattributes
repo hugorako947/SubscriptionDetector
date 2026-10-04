@@ -1,0 +1,5 @@
+# Fins de ligne LF partout, y compris sous Windows
+* text=auto eol=lf
+*.png binary
+*.woff2 binary
+*.gz binary
