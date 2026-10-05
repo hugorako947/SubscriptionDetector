@@ -69,3 +69,35 @@ Aucune donnée de l'utilisateur ne quitte l'appareil, l'appli marche en mode avi
 **Écran `/debug`** construit partout sauf en production sur Cloudflare Pages (`CF_PAGES_BRANCH === 'main'`, à vérifier) : il disparaît du bundle de production. Il prépare le moteur dès l'ouverture et le libère en sortant, garde seulement un aperçu JPEG réduit de chaque image, et affiche les erreurs dans la page (pas d'inspecteur Safari sans Mac).
 
 **Mesures sur les captures fictives** (Chromium sur Linux, pas un téléphone) : moteur prêt en 0,6 à 1 s ; 0,6 à 1,7 s de lecture par capture de 1170 × 2532 px ; confiance moyenne 89 à 91. Le mode hors ligne fonctionne, aucune requête hors du site, aucune violation de CSP. Les accents des majuscules sont parfois perdus (« ONDEA »), le signe « − » est lu « - », et un petit artefact de confiance très basse (« RL », 18 à 22) apparaît : ces points seront traités au parsing.
+
+## Décisions de la phase 3
+
+**Chaîne complète** : lignes OCR → `parsing/` (montants, dates, libellés, mise en page) → `sources/screenshots/` (un adaptateur par type de page, tous au format `Transaction`) → `detection/engine.ts` (indépendant de la source). Rien n'est encore branché sur l'interface : ce sera la phase 4.
+
+**Montants** : formats du cahier des charges, plus « 9 € » et « € » lu « E » par l'OCR (seulement après des centimes). Un nombre sans centimes ni symbole n'est jamais un montant (« 200 GO », « 05/09 »). Les O et l lus dans un montant redeviennent des chiffres.
+
+**Dates** : « 05/09 » (barre oblique seulement : « 13.49 » est un montant), avec année, mois en lettres abrégés ou non, en-têtes de section, « Aujourd'hui », « Hier ». Sans année : la date passée la plus récente pour une opération, la prochaine date future pour un renouvellement.
+
+**Libellés** : majuscules, sans accents, sans préfixes de paiement, numéros de carte, références, dates ni longs codes (au moins 4 chiffres). Le type de paiement (prélèvement, carte, virement) est lu avant d'effacer les préfixes. 0/O et 1/I sont corrigés dans les mots surtout faits de lettres ; la confusion rn/m est testée au moment de la correspondance, car remplacer « RN » partout abîmerait de vrais mots.
+
+**Mise en page** : un montant seul sur sa ligne va à la ligne d'opération la plus proche qui n'en a pas (libellé et sous-libellé compris). Un sous-libellé est une ligne faite seulement d'un mot de type de paiement, ou une ligne plus petite collée à une opération. Les titres de page et les lignes de solde sont ignorés. Les hauteurs comparées sont celles des mots, pas de la ligne, qui grandit quand un montant décalé la rejoint.
+
+**Correspondance avec le dictionnaire** : séquence de mots exacte d'abord, puis Jaro-Winkler ≥ 0,92 (réglable) avec un nombre de modifications plafonné, car Jaro-Winkler seul confondait « ORANGERIE » et « ORANGE ». Les variantes de moins de 5 lettres (« SFR », « DAZN ») doivent apparaître telles quelles. Le service caché derrière PayPal l'emporte sur PayPal.
+
+**Dictionnaire** : 40 services et 3 intermédiaires (Apple, Google Play, PayPal), sans aucun prix, `cancelUrl` vide et `verified: false`. Fréquence habituelle « inconnue » dès qu'un service propose couramment plusieurs fréquences. Toutes les variantes de libellés sont à vérifier sur de vrais relevés.
+
+**Règles de classement** :
+- service connu → confiance élevée ;
+- ligne de la page des abonnements d'un store → élevée ;
+- prélèvement SEPA d'un organisme inconnu → moyenne ;
+- impôts, crédit, cotisations, loyer → « Autres prélèvements », jamais comptés ;
+- même marchand régulier → moyenne (3 fois ou plus) ou faible (2 fois) ;
+- le reste est ignoré.
+
+Les crédits et les virements sont écartés, et le texte d'un virement n'est jamais conservé.
+
+**Recoupements** : une ligne Apple ou Google du même montant qu'un abonnement de la page du store est rattachée à cet abonnement (pas de double compte). Un même organisme inconnu vu sur la page des prélèvements et sur le relevé est fusionné (« CINEFLUX SAS » et « CINEFLUX », « CLUB FORME+ » et « CLUB FORME PLUS »). Une ligne vue sur deux captures qui se chevauchent est comptée une fois, mais deux lignes identiques sur la même capture sont gardées (deux cafés le même jour).
+
+**Fréquence et totaux** : la fréquence lue sur le store ou détectée dans les dates prime ; sinon la fréquence habituelle du service, signalée comme estimée. Sans fréquence, l'abonnement n'entre pas dans le total et l'utilisateur la précisera (phase 4). Prochaine échéance : date du store, sinon dernier paiement plus une période.
+
+**Tests** : 182 tests, dont la chaîne complète sur la sortie OCR réelle des quatre captures fictives (`tests/fixtures/ocr/`, produite par l'écran `/debug`), en mode clair et sombre.

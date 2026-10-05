@@ -31,7 +31,11 @@ Tout ce qui n'a pas pu être confirmé depuis l'environnement de développement.
 - [ ] Limite de taille des canvas sur iPhone.
 - [ ] Valeur de `File.lastModified` pour une image choisie dans la galerie de l'iPhone.
 - [ ] Prise en charge d'OffscreenCanvas par Safari.
-- [ ] Libellés bancaires réels de chaque service du dictionnaire.
+- [ ] Libellés bancaires réels de chaque service du dictionnaire (`src/data/services.ts`), et nom actuel de HBO Max en France.
+- [ ] Fréquence habituelle des services marqués « inconnue » (salles de sport, Amazon Prime, jeux).
+- [ ] Mots des sous-libellés, titres de page et lignes de solde des vraies applis bancaires (`src/parsing/layout.ts`).
+- [ ] Préfixes et marqueurs de type de paiement sur de vrais relevés (`src/parsing/normalize.ts`).
+- [ ] Textes exacts des pages d'abonnements de l'App Store et de Google Play en français : renouvellement, essai, sections des abonnements expirés (`src/parsing/store.ts`).
 
 ## Rappels (phase 4)
 
