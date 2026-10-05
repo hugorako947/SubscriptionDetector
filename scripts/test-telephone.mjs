@@ -9,12 +9,56 @@
  * Messages are in French: they are read by the developer at the console.
  */
 import { spawn } from 'node:child_process'
+import { Resolver } from 'node:dns/promises'
+import https from 'node:https'
+import QRCode from 'qrcode'
 import { preview } from 'vite'
 
 const LOCAL_URL = 'http://127.0.0.1:4173'
 const TUNNEL_URL_PATTERN = /https:\/\/(?!api\.)[a-z0-9-]+\.trycloudflare\.com/
 const CHECK_INTERVAL_MS = 3000
 const CHECK_ATTEMPTS = Number(process.env.TELEPHONE_CHECK_ATTEMPTS ?? 20)
+const DNS_ATTEMPTS = 30
+
+/*
+ * The new tunnel hostname is checked through public resolvers, never through
+ * the computer's own DNS: asking the system (or the internet box) too early
+ * makes it remember "this name does not exist" for several minutes, and the
+ * browser then fails too. This is what happened with the first version.
+ */
+const publicDns = new Resolver({ timeout: 3000, tries: 1 })
+publicDns.setServers(['1.1.1.1', '8.8.8.8'])
+
+/** IPv4 of the hostname per public DNS, null if not published yet, 'blocked' if public DNS is unreachable. */
+async function publicLookup(hostname) {
+  try {
+    const [address] = await publicDns.resolve4(hostname)
+    return address ?? null
+  } catch (error) {
+    return error.code === 'ENOTFOUND' || error.code === 'ENODATA' ? null : 'blocked'
+  }
+}
+
+/** HTTPS GET on the tunnel, connecting to the given IP (still validated against the hostname's certificate). */
+function tunnelStatus(url, address) {
+  return new Promise((resolve) => {
+    const request = https.request(
+      url,
+      {
+        timeout: 10_000,
+        lookup: (_hostname, options, callback) =>
+          options?.all ? callback(null, [{ address, family: 4 }]) : callback(null, address, 4),
+      },
+      (response) => {
+        response.resume()
+        resolve(response.statusCode)
+      },
+    )
+    request.on('timeout', () => request.destroy(new Error('timeout')))
+    request.on('error', (error) => resolve(error.code ?? error.message))
+    request.end()
+  })
+}
 const useHttp2 = process.argv.includes('--http2')
 
 const say = (message) => console.log(`\n▶ ${message}`)
@@ -126,22 +170,49 @@ for (const stream of [tunnel.stdout, tunnel.stderr]) {
 async function checkEndToEnd() {
   if (checking || !publicUrl) return
   checking = true
+  const hostname = new URL(publicUrl).hostname
+
+  say("Attente de la publication de l'adresse sur internet (DNS public) ...")
+  let address = null
+  for (let attempt = 1; attempt <= DNS_ATTEMPTS && !address; attempt++) {
+    const result = await publicLookup(hostname)
+    if (result === 'blocked') {
+      fail(
+        'Les DNS publics (1.1.1.1, 8.8.8.8) sont injoignables depuis ce réseau : vérification impossible.\n' +
+          `  Attends une minute, puis ouvre ${publicUrl} directement sur ton téléphone.`,
+      )
+      return
+    }
+    address = result
+    if (!address) {
+      process.stdout.write(`  essai ${attempt}/${DNS_ATTEMPTS} : adresse pas encore publiée\n`)
+      await sleep(CHECK_INTERVAL_MS)
+    }
+  }
+  if (!address) {
+    fail(`L'adresse ${hostname} n'a jamais été publiée. Arrête (Ctrl+C) et relance la commande.`)
+    return
+  }
+
   say('Vérification du chemin complet (internet → tunnel → cet ordinateur) ...')
   let status
   for (let attempt = 1; attempt <= CHECK_ATTEMPTS; attempt++) {
-    status = await httpStatus(`${publicUrl}/`)
+    status = await tunnelStatus(`${publicUrl}/`, address)
     if (status === 200) {
+      const qr = await QRCode.toString(`${publicUrl}/`, { type: 'terminal', small: true })
       console.log(
-        `\n✔ Tout fonctionne.\n\n` +
-          `  1. Ouvre sur ce PC :  ${publicUrl}\n` +
-          `  2. Scanne le QR code avec ton téléphone.\n\n` +
+        `\n✔ Tout fonctionne. Scanne ce code avec ton téléphone :\n\n${qr}\n` +
+          `  Adresse : ${publicUrl}\n\n` +
+          `  Sur le téléphone, de préférence en 4G/5G (Wi-Fi coupé) : le réseau mobile ne\n` +
+          `  dépend pas de la box, qui peut mettre quelques minutes à connaître cette adresse.\n` +
+          `  Sur ce PC, si le navigateur dit « adresse introuvable » : attends une minute,\n` +
+          `  ou lance « ipconfig /flushdns » dans un autre terminal, puis recharge.\n\n` +
           `  Garde cette fenêtre ouverte pendant le test. Ctrl+C pour tout arrêter.\n` +
           `  L'adresse est publique tant que le tunnel tourne.\n`,
       )
       return
     }
     // 502: tunnel connected but cannot reach the preview. 530 (error 1033): no connector yet.
-    // ENOTFOUND: the new hostname is not resolvable yet.
     process.stdout.write(`  essai ${attempt}/${CHECK_ATTEMPTS} : ${status}\n`)
     await sleep(CHECK_INTERVAL_MS)
   }

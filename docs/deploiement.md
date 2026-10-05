@@ -80,7 +80,7 @@ Ensuite, **une seule commande, dans un seul terminal** :
 npm run telephone
 ```
 
-Elle construit l'appli, démarre l'aperçu sur `127.0.0.1:4173`, ouvre le tunnel, puis vérifie elle-même le chemin complet : internet, tunnel, puis ton PC. Elle n'affiche « ✔ Tout fonctionne » qu'une fois la page réellement joignable par l'adresse publique. Ouvre alors cette adresse sur ton PC et scanne le QR code. Ctrl+C arrête tout.
+Elle construit l'appli, démarre l'aperçu sur `127.0.0.1:4173`, ouvre le tunnel, puis vérifie elle-même le chemin complet : internet, tunnel, puis ton PC. Elle n'affiche « ✔ Tout fonctionne » qu'une fois la page réellement joignable par l'adresse publique, avec un QR code directement dans le terminal. Scanne-le avec ton téléphone. Ctrl+C arrête tout.
 
 Si le réseau bloque le protocole par défaut de cloudflared (QUIC, en UDP) :
 
@@ -92,7 +92,21 @@ En cas d'échec, la commande affiche le code d'erreur et les dernières erreurs 
 
 - **502** : le tunnel est connecté mais n'atteint pas l'aperçu sur le PC ;
 - **530** (page « Error 1033 ») : aucun tunnel connecté pour cette adresse ;
-- **ENOTFOUND** : l'adresse est trop récente, elle n'est pas encore connue sur internet.
+- **adresse jamais publiée** : relance la commande, une nouvelle adresse sera créée.
+
+La vérification interroge des DNS publics (1.1.1.1 et 8.8.8.8), jamais celui du PC. Un DNS interrogé trop tôt (Windows, ou la box) retient pendant plusieurs minutes que « cette adresse n'existe pas ». Le navigateur affiche alors « adresse introuvable » alors que le tunnel marche. Les parades :
+
+- scanne le QR code affiché **dans le terminal**, avec le téléphone en 4G/5G, Wi-Fi coupé ;
+- sur le PC, attends une minute ou lance `ipconfig /flushdns`, puis recharge la page.
+
+Pour savoir si c'est ton DNS ou le tunnel :
+
+```powershell
+nslookup ADRESSE.trycloudflare.com            # ton DNS (box, fournisseur d'accès)
+nslookup ADRESSE.trycloudflare.com 1.1.1.1    # DNS public
+```
+
+Si seule la seconde commande répond, le tunnel va bien : c'est ton DNS qui ne connaît pas encore l'adresse.
 
 `vite.config.ts` fixe l'aperçu sur `127.0.0.1` (et non `localhost`, qui peut désigner l'IPv6 sous Windows) et autorise les adresses `.trycloudflare.com` (`preview.allowedHosts`).
 
