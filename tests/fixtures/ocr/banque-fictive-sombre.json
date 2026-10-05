@@ -1,0 +1,975 @@
+[
+ {
+  "text": "Opérations",
+  "segments": [
+   "Opérations"
+  ],
+  "words": [
+   {
+    "text": "Opérations",
+    "confidence": 96,
+    "bbox": {
+     "x0": 63,
+     "y0": 181,
+     "x1": 500,
+     "y1": 261
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 63,
+   "y0": 181,
+   "x1": 500,
+   "y1": 261
+  },
+  "confidence": 96
+ },
+ {
+  "text": "Compte courant - Solde 1 234,56 €",
+  "segments": [
+   "Compte courant - Solde 1 234,56 €"
+  ],
+  "words": [
+   {
+    "text": "Compte",
+    "confidence": 96,
+    "bbox": {
+     "x0": 62,
+     "y0": 308,
+     "x1": 215,
+     "y1": 348
+    }
+   },
+   {
+    "text": "courant",
+    "confidence": 93,
+    "bbox": {
+     "x0": 232,
+     "y0": 310,
+     "x1": 380,
+     "y1": 339
+    }
+   },
+   {
+    "text": "-",
+    "confidence": 92,
+    "bbox": {
+     "x0": 398,
+     "y0": 324,
+     "x1": 402,
+     "y1": 329
+    }
+   },
+   {
+    "text": "Solde",
+    "confidence": 95,
+    "bbox": {
+     "x0": 423,
+     "y0": 306,
+     "x1": 533,
+     "y1": 339
+    }
+   },
+   {
+    "text": "1",
+    "confidence": 96,
+    "bbox": {
+     "x0": 551,
+     "y0": 308,
+     "x1": 571,
+     "y1": 339
+    }
+   },
+   {
+    "text": "234,56",
+    "confidence": 96,
+    "bbox": {
+     "x0": 588,
+     "y0": 308,
+     "x1": 721,
+     "y1": 345
+    }
+   },
+   {
+    "text": "€",
+    "confidence": 96,
+    "bbox": {
+     "x0": 736,
+     "y0": 308,
+     "x1": 760,
+     "y1": 339
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 62,
+   "y0": 306,
+   "x1": 760,
+   "y1": 348
+  },
+  "confidence": 94.9
+ },
+ {
+  "text": "Mardi 2 septembre",
+  "segments": [
+   "Mardi 2 septembre"
+  ],
+  "words": [
+   {
+    "text": "Mardi",
+    "confidence": 96,
+    "bbox": {
+     "x0": 63,
+     "y0": 467,
+     "x1": 161,
+     "y1": 495
+    }
+   },
+   {
+    "text": "2",
+    "confidence": 96,
+    "bbox": {
+     "x0": 176,
+     "y0": 468,
+     "x1": 195,
+     "y1": 495
+    }
+   },
+   {
+    "text": "septembre",
+    "confidence": 96,
+    "bbox": {
+     "x0": 209,
+     "y0": 467,
+     "x1": 403,
+     "y1": 503
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 63,
+   "y0": 467,
+   "x1": 403,
+   "y1": 503
+  },
+  "confidence": 96
+ },
+ {
+  "text": "PRLV SEPA CINÉFLUX",
+  "segments": [
+   "PRLV SEPA CINÉFLUX"
+  ],
+  "words": [
+   {
+    "text": "PRLV",
+    "confidence": 91,
+    "bbox": {
+     "x0": 64,
+     "y0": 566,
+     "x1": 174,
+     "y1": 597
+    }
+   },
+   {
+    "text": "SEPA",
+    "confidence": 91,
+    "bbox": {
+     "x0": 189,
+     "y0": 565,
+     "x1": 303,
+     "y1": 598
+    }
+   },
+   {
+    "text": "CINÉFLUX",
+    "confidence": 91,
+    "bbox": {
+     "x0": 316,
+     "y0": 558,
+     "x1": 535,
+     "y1": 598
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 64,
+   "y0": 558,
+   "x1": 535,
+   "y1": 598
+  },
+  "confidence": 91
+ },
+ {
+  "text": "RL -11,99 €",
+  "segments": [
+   "RL",
+   "-11,99 €"
+  ],
+  "words": [
+   {
+    "text": "RL",
+    "confidence": 18,
+    "bbox": {
+     "x0": 104,
+     "y0": 622,
+     "x1": 137,
+     "y1": 627
+    }
+   },
+   {
+    "text": "-11,99",
+    "confidence": 86,
+    "bbox": {
+     "x0": 938,
+     "y0": 589,
+     "x1": 1071,
+     "y1": 628
+    }
+   },
+   {
+    "text": "€",
+    "confidence": 96,
+    "bbox": {
+     "x0": 1085,
+     "y0": 589,
+     "x1": 1109,
+     "y1": 622
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 104,
+   "y0": 589,
+   "x1": 1109,
+   "y1": 628
+  },
+  "confidence": 72
+ },
+ {
+  "text": "Prélèvement",
+  "segments": [
+   "Prélèvement"
+  ],
+  "words": [
+   {
+    "text": "Prélèvement",
+    "confidence": 96,
+    "bbox": {
+     "x0": 63,
+     "y0": 622,
+     "x1": 262,
+     "y1": 648
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 63,
+   "y0": 622,
+   "x1": 262,
+   "y1": 648
+  },
+  "confidence": 96
+ },
+ {
+  "text": "CB BOULANGERIE DU PORT",
+  "segments": [
+   "CB BOULANGERIE DU PORT"
+  ],
+  "words": [
+   {
+    "text": "CB",
+    "confidence": 92,
+    "bbox": {
+     "x0": 62,
+     "y0": 739,
+     "x1": 120,
+     "y1": 772
+    }
+   },
+   {
+    "text": "BOULANGERIE",
+    "confidence": 91,
+    "bbox": {
+     "x0": 139,
+     "y0": 739,
+     "x1": 458,
+     "y1": 772
+    }
+   },
+   {
+    "text": "DU",
+    "confidence": 95,
+    "bbox": {
+     "x0": 476,
+     "y0": 740,
+     "x1": 534,
+     "y1": 772
+    }
+   },
+   {
+    "text": "PORT",
+    "confidence": 95,
+    "bbox": {
+     "x0": 554,
+     "y0": 739,
+     "x1": 673,
+     "y1": 772
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 62,
+   "y0": 739,
+   "x1": 673,
+   "y1": 772
+  },
+  "confidence": 92.4
+ },
+ {
+  "text": "-4,20 €",
+  "segments": [
+   "-4,20 €"
+  ],
+  "words": [
+   {
+    "text": "-4,20",
+    "confidence": 60,
+    "bbox": {
+     "x0": 960,
+     "y0": 763,
+     "x1": 1071,
+     "y1": 802
+    }
+   },
+   {
+    "text": "€",
+    "confidence": 96,
+    "bbox": {
+     "x0": 1085,
+     "y0": 763,
+     "x1": 1109,
+     "y1": 796
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 960,
+   "y0": 763,
+   "x1": 1109,
+   "y1": 802
+  },
+  "confidence": 66
+ },
+ {
+  "text": "Carte",
+  "segments": [
+   "Carte"
+  ],
+  "words": [
+   {
+    "text": "Carte",
+    "confidence": 96,
+    "bbox": {
+     "x0": 62,
+     "y0": 797,
+     "x1": 146,
+     "y1": 822
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 62,
+   "y0": 797,
+   "x1": 146,
+   "y1": 822
+  },
+  "confidence": 96
+ },
+ {
+  "text": "Jeudi 4 septembre",
+  "segments": [
+   "Jeudi 4 septembre"
+  ],
+  "words": [
+   {
+    "text": "Jeudi",
+    "confidence": 96,
+    "bbox": {
+     "x0": 61,
+     "y0": 932,
+     "x1": 159,
+     "y1": 960
+    }
+   },
+   {
+    "text": "4",
+    "confidence": 96,
+    "bbox": {
+     "x0": 174,
+     "y0": 933,
+     "x1": 194,
+     "y1": 960
+    }
+   },
+   {
+    "text": "septembre",
+    "confidence": 96,
+    "bbox": {
+     "x0": 207,
+     "y0": 932,
+     "x1": 401,
+     "y1": 968
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 61,
+   "y0": 932,
+   "x1": 401,
+   "y1": 968
+  },
+  "confidence": 96
+ },
+ {
+  "text": "PRLV SEPA ONDEA MUSIQUE -10,99 €",
+  "segments": [
+   "PRLV SEPA ONDEA MUSIQUE",
+   "-10,99 €"
+  ],
+  "words": [
+   {
+    "text": "PRLV",
+    "confidence": 69,
+    "bbox": {
+     "x0": 64,
+     "y0": 1031,
+     "x1": 174,
+     "y1": 1092
+    }
+   },
+   {
+    "text": "SEPA",
+    "confidence": 92,
+    "bbox": {
+     "x0": 189,
+     "y0": 1030,
+     "x1": 303,
+     "y1": 1063
+    }
+   },
+   {
+    "text": "ONDEA",
+    "confidence": 72,
+    "bbox": {
+     "x0": 316,
+     "y0": 1030,
+     "x1": 473,
+     "y1": 1063
+    }
+   },
+   {
+    "text": "MUSIQUE",
+    "confidence": 95,
+    "bbox": {
+     "x0": 487,
+     "y0": 1030,
+     "x1": 692,
+     "y1": 1071
+    }
+   },
+   {
+    "text": "-10,99",
+    "confidence": 81,
+    "bbox": {
+     "x0": 935,
+     "y0": 1054,
+     "x1": 1071,
+     "y1": 1093
+    }
+   },
+   {
+    "text": "€",
+    "confidence": 96,
+    "bbox": {
+     "x0": 1085,
+     "y0": 1054,
+     "x1": 1109,
+     "y1": 1087
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 64,
+   "y0": 1030,
+   "x1": 1109,
+   "y1": 1093
+  },
+  "confidence": 83.4
+ },
+ {
+  "text": "Prélèvement",
+  "segments": [
+   "Prélèvement"
+  ],
+  "words": [
+   {
+    "text": "Prélèvement",
+    "confidence": 96,
+    "bbox": {
+     "x0": 63,
+     "y0": 1087,
+     "x1": 262,
+     "y1": 1113
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 63,
+   "y0": 1087,
+   "x1": 262,
+   "y1": 1113
+  },
+  "confidence": 96
+ },
+ {
+  "text": "CB SUPERMARCHE CENTRE",
+  "segments": [
+   "CB SUPERMARCHE CENTRE"
+  ],
+  "words": [
+   {
+    "text": "CB",
+    "confidence": 93,
+    "bbox": {
+     "x0": 62,
+     "y0": 1204,
+     "x1": 120,
+     "y1": 1237
+    }
+   },
+   {
+    "text": "SUPERMARCHE",
+    "confidence": 91,
+    "bbox": {
+     "x0": 137,
+     "y0": 1204,
+     "x1": 483,
+     "y1": 1237
+    }
+   },
+   {
+    "text": "CENTRE",
+    "confidence": 95,
+    "bbox": {
+     "x0": 500,
+     "y0": 1204,
+     "x1": 681,
+     "y1": 1237
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 62,
+   "y0": 1204,
+   "x1": 681,
+   "y1": 1237
+  },
+  "confidence": 92.5
+ },
+ {
+  "text": "-38,74 €",
+  "segments": [
+   "-38,74 €"
+  ],
+  "words": [
+   {
+    "text": "-38,74",
+    "confidence": 87,
+    "bbox": {
+     "x0": 935,
+     "y0": 1228,
+     "x1": 1073,
+     "y1": 1267
+    }
+   },
+   {
+    "text": "€",
+    "confidence": 96,
+    "bbox": {
+     "x0": 1085,
+     "y0": 1228,
+     "x1": 1109,
+     "y1": 1261
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 935,
+   "y0": 1228,
+   "x1": 1109,
+   "y1": 1267
+  },
+  "confidence": 88.3
+ },
+ {
+  "text": "Carte",
+  "segments": [
+   "Carte"
+  ],
+  "words": [
+   {
+    "text": "Carte",
+    "confidence": 96,
+    "bbox": {
+     "x0": 62,
+     "y0": 1262,
+     "x1": 146,
+     "y1": 1287
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 62,
+   "y0": 1262,
+   "x1": 146,
+   "y1": 1287
+  },
+  "confidence": 96
+ },
+ {
+  "text": "Lundi 8 septembre",
+  "segments": [
+   "Lundi 8 septembre"
+  ],
+  "words": [
+   {
+    "text": "Lundi",
+    "confidence": 96,
+    "bbox": {
+     "x0": 63,
+     "y0": 1397,
+     "x1": 163,
+     "y1": 1425
+    }
+   },
+   {
+    "text": "8",
+    "confidence": 96,
+    "bbox": {
+     "x0": 178,
+     "y0": 1398,
+     "x1": 197,
+     "y1": 1425
+    }
+   },
+   {
+    "text": "septembre",
+    "confidence": 96,
+    "bbox": {
+     "x0": 211,
+     "y0": 1397,
+     "x1": 405,
+     "y1": 1433
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 63,
+   "y0": 1397,
+   "x1": 405,
+   "y1": 1433
+  },
+  "confidence": 96
+ },
+ {
+  "text": "NUAGERIE 200 GO",
+  "segments": [
+   "NUAGERIE 200 GO"
+  ],
+  "words": [
+   {
+    "text": "NUAGERIE",
+    "confidence": 92,
+    "bbox": {
+     "x0": 64,
+     "y0": 1495,
+     "x1": 293,
+     "y1": 1528
+    }
+   },
+   {
+    "text": "200",
+    "confidence": 96,
+    "bbox": {
+     "x0": 310,
+     "y0": 1495,
+     "x1": 381,
+     "y1": 1528
+    }
+   },
+   {
+    "text": "GO",
+    "confidence": 95,
+    "bbox": {
+     "x0": 397,
+     "y0": 1495,
+     "x1": 463,
+     "y1": 1528
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 64,
+   "y0": 1495,
+   "x1": 463,
+   "y1": 1528
+  },
+  "confidence": 93.4
+ },
+ {
+  "text": "-2,99 €",
+  "segments": [
+   "-2,99 €"
+  ],
+  "words": [
+   {
+    "text": "-2,99",
+    "confidence": 89,
+    "bbox": {
+     "x0": 960,
+     "y0": 1519,
+     "x1": 1071,
+     "y1": 1558
+    }
+   },
+   {
+    "text": "€",
+    "confidence": 96,
+    "bbox": {
+     "x0": 1085,
+     "y0": 1519,
+     "x1": 1109,
+     "y1": 1552
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 960,
+   "y0": 1519,
+   "x1": 1109,
+   "y1": 1558
+  },
+  "confidence": 90.2
+ },
+ {
+  "text": "Carte",
+  "segments": [
+   "Carte"
+  ],
+  "words": [
+   {
+    "text": "Carte",
+    "confidence": 96,
+    "bbox": {
+     "x0": 62,
+     "y0": 1553,
+     "x1": 146,
+     "y1": 1578
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 62,
+   "y0": 1553,
+   "x1": 146,
+   "y1": 1578
+  },
+  "confidence": 96
+ },
+ {
+  "text": "PRLV CLUB FORME+ -24,99 €",
+  "segments": [
+   "PRLV CLUB FORME+",
+   "-24,99 €"
+  ],
+  "words": [
+   {
+    "text": "PRLV",
+    "confidence": 69,
+    "bbox": {
+     "x0": 64,
+     "y0": 1670,
+     "x1": 174,
+     "y1": 1731
+    }
+   },
+   {
+    "text": "CLUB",
+    "confidence": 93,
+    "bbox": {
+     "x0": 189,
+     "y0": 1669,
+     "x1": 305,
+     "y1": 1702
+    }
+   },
+   {
+    "text": "FORME+",
+    "confidence": 91,
+    "bbox": {
+     "x0": 323,
+     "y0": 1669,
+     "x1": 506,
+     "y1": 1702
+    }
+   },
+   {
+    "text": "-24,99",
+    "confidence": 84,
+    "bbox": {
+     "x0": 935,
+     "y0": 1693,
+     "x1": 1071,
+     "y1": 1732
+    }
+   },
+   {
+    "text": "€",
+    "confidence": 96,
+    "bbox": {
+     "x0": 1085,
+     "y0": 1693,
+     "x1": 1109,
+     "y1": 1726
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 64,
+   "y0": 1669,
+   "x1": 1109,
+   "y1": 1732
+  },
+  "confidence": 85.4
+ },
+ {
+  "text": "Prélèvement",
+  "segments": [
+   "Prélèvement"
+  ],
+  "words": [
+   {
+    "text": "Prélèvement",
+    "confidence": 96,
+    "bbox": {
+     "x0": 63,
+     "y0": 1726,
+     "x1": 262,
+     "y1": 1752
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 63,
+   "y0": 1726,
+   "x1": 262,
+   "y1": 1752
+  },
+  "confidence": 96
+ },
+ {
+  "text": "REMBOURSEMENT",
+  "segments": [
+   "REMBOURSEMENT"
+  ],
+  "words": [
+   {
+    "text": "REMBOURSEMENT",
+    "confidence": 90,
+    "bbox": {
+     "x0": 64,
+     "y0": 1843,
+     "x1": 477,
+     "y1": 1876
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 64,
+   "y0": 1843,
+   "x1": 477,
+   "y1": 1876
+  },
+  "confidence": 90
+ },
+ {
+  "text": "+15,00 €",
+  "segments": [
+   "+15,00 €"
+  ],
+  "words": [
+   {
+    "text": "+15,00",
+    "confidence": 91,
+    "bbox": {
+     "x0": 935,
+     "y0": 1867,
+     "x1": 1071,
+     "y1": 1906
+    }
+   },
+   {
+    "text": "€",
+    "confidence": 96,
+    "bbox": {
+     "x0": 1085,
+     "y0": 1867,
+     "x1": 1109,
+     "y1": 1900
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 935,
+   "y0": 1867,
+   "x1": 1109,
+   "y1": 1906
+  },
+  "confidence": 91.7
+ },
+ {
+  "text": "Virement reçu",
+  "segments": [
+   "Virement reçu"
+  ],
+  "words": [
+   {
+    "text": "Virement",
+    "confidence": 95,
+    "bbox": {
+     "x0": 61,
+     "y0": 1900,
+     "x1": 203,
+     "y1": 1926
+    }
+   },
+   {
+    "text": "reçu",
+    "confidence": 95,
+    "bbox": {
+     "x0": 216,
+     "y0": 1907,
+     "x1": 281,
+     "y1": 1934
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 61,
+   "y0": 1900,
+   "x1": 281,
+   "y1": 1934
+  },
+  "confidence": 95
+ }
+]

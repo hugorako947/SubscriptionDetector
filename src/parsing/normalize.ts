@@ -49,7 +49,7 @@ const NOISE = [
   /\b\d{1,2}\/\d{1,2}(?:\/\d{2,4})?\b/g, // 05/09, 05/09/2026
   /\b\d{6,8}\b/g, // 050926, 20260905
   /\b(REF|RUM|ICS|MANDAT|ID|NUM|N°)\s*[:.]?\s*\S+/g, // references
-  /\b(?=[A-Z0-9]*\d)(?=[A-Z0-9]*[A-Z])[A-Z0-9]{9,}\b/g, // long codes mixing letters and digits
+  /\b(?=(?:[A-Z]*\d){4})(?=[A-Z0-9]*[A-Z])[A-Z0-9]{9,}\b/g, // long codes: letters and at least 4 digits (not « MICROSOFT365 »)
 ]
 
 /** 0→O and 1→I inside words that are mostly letters (« NETFL1X », « SP0TIFY »). */

@@ -43,12 +43,54 @@ def html(dark: bool) -> str:
       {''.join(items)}
     </body></html>'''
 
+STORE_HTML = """<html><head><style>
+  body { margin:0; background:#f2f2f7; color:#111; font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; }
+  h1 { font-size: 30px; margin: 56px 20px 8px; }
+  h2 { font-size: 13px; color:#6b6b70; margin: 22px 20px 6px; font-weight: 600; }
+  .card { background:#fff; margin: 0 16px; border-radius: 12px; }
+  .item { padding: 12px 16px; border-bottom: 1px solid #e5e5ea; }
+  .name { font-size: 16px; font-weight: 600; }
+  .detail { font-size: 13px; color:#6b6b70; margin-top: 2px; }
+</style></head><body>
+  <h1>Abonnements</h1>
+  <h2>Actifs</h2>
+  <div class="card">
+    <div class="item"><div class="name">Cinéflux</div><div class="detail">4,99 € / mois</div><div class="detail">Renouvellement le 12 octobre</div></div>
+    <div class="item"><div class="name">Nuagerie Pro</div><div class="detail">29,99 € / an</div><div class="detail">Renouvellement le 3 mars</div></div>
+    <div class="item"><div class="name">Carnet Malin</div><div class="detail">Essai gratuit jusqu'au 20 octobre</div><div class="detail">puis 2,99 € / mois</div></div>
+  </div>
+  <h2>Expirés</h2>
+  <div class="card">
+    <div class="item"><div class="name">Vieux Jeu</div><div class="detail">Expiré le 2 juin</div></div>
+  </div>
+</body></html>"""
+
+DEBITS_HTML = """<html><head><style>
+  body { margin:0; background:#fff; color:#1b1f24; font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; }
+  h1 { font-size: 26px; margin: 56px 20px 4px; }
+  p.sub { margin: 0 20px 18px; color:#6b7480; font-size: 14px; }
+  .row { padding: 14px 20px; border-bottom: 1px solid #e6e9ed; }
+  .name { font-size: 15px; font-weight: 500; }
+  .meta { font-size: 12px; color:#6b7480; margin-top: 2px; }
+</style></head><body>
+  <h1>Mes prélèvements</h1><p class="sub">Créanciers autorisés</p>
+  <div class="row"><div class="name">CINEFLUX SAS</div><div class="meta">Mandat actif</div></div>
+  <div class="row"><div class="name">DGFIP IMPOT</div><div class="meta">Mandat actif</div></div>
+  <div class="row"><div class="name">CLUB FORME PLUS</div><div class="meta">Mandat actif</div></div>
+  <div class="row"><div class="name">ONDEA MUSIQUE</div><div class="meta">Mandat actif</div></div>
+</body></html>"""
+
 with sync_playwright() as p:
     browser = p.chromium.launch(executable_path=os.environ.get('CHROME_PATH') or None)
     for dark in (False, True):
         page = browser.new_page(viewport={'width': 390, 'height': 844}, device_scale_factor=3)
         page.set_content(html(dark))
         name = 'banque-fictive-sombre.png' if dark else 'banque-fictive-clair.png'
+        page.screenshot(path=str(HERE / 'images' / name))
+        page.close()
+    for name, content in (('store-fictif.png', STORE_HTML), ('prelevements-fictifs.png', DEBITS_HTML)):
+        page = browser.new_page(viewport={'width': 390, 'height': 844}, device_scale_factor=3)
+        page.set_content(content)
         page.screenshot(path=str(HERE / 'images' / name))
         page.close()
     browser.close()

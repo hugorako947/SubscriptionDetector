@@ -1,0 +1,362 @@
+[
+ {
+  "text": "Mes prélèvements",
+  "segments": [
+   "Mes prélèvements"
+  ],
+  "words": [
+   {
+    "text": "Mes",
+    "confidence": 96,
+    "bbox": {
+     "x0": 65,
+     "y0": 186,
+     "x1": 209,
+     "y1": 241
+    }
+   },
+   {
+    "text": "prélèvements",
+    "confidence": 95,
+    "bbox": {
+     "x0": 238,
+     "y0": 183,
+     "x1": 733,
+     "y1": 256
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 65,
+   "y0": 183,
+   "x1": 733,
+   "y1": 256
+  },
+  "confidence": 95.2
+ },
+ {
+  "text": "Créanciers autorisés",
+  "segments": [
+   "Créanciers autorisés"
+  ],
+  "words": [
+   {
+    "text": "Créanciers",
+    "confidence": 92,
+    "bbox": {
+     "x0": 62,
+     "y0": 281,
+     "x1": 262,
+     "y1": 313
+    }
+   },
+   {
+    "text": "autorisés",
+    "confidence": 96,
+    "bbox": {
+     "x0": 277,
+     "y0": 281,
+     "x1": 444,
+     "y1": 313
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 62,
+   "y0": 281,
+   "x1": 444,
+   "y1": 313
+  },
+  "confidence": 93.9
+ },
+ {
+  "text": "CINEFLUX SAS",
+  "segments": [
+   "CINEFLUX SAS"
+  ],
+  "words": [
+   {
+    "text": "CINEFLUX",
+    "confidence": 91,
+    "bbox": {
+     "x0": 62,
+     "y0": 424,
+     "x1": 282,
+     "y1": 457
+    }
+   },
+   {
+    "text": "SAS",
+    "confidence": 96,
+    "bbox": {
+     "x0": 297,
+     "y0": 424,
+     "x1": 383,
+     "y1": 457
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 62,
+   "y0": 424,
+   "x1": 383,
+   "y1": 457
+  },
+  "confidence": 92.4
+ },
+ {
+  "text": "Mandat actif",
+  "segments": [
+   "Mandat actif"
+  ],
+  "words": [
+   {
+    "text": "Mandat",
+    "confidence": 96,
+    "bbox": {
+     "x0": 63,
+     "y0": 481,
+     "x1": 180,
+     "y1": 507
+    }
+   },
+   {
+    "text": "actif",
+    "confidence": 96,
+    "bbox": {
+     "x0": 192,
+     "y0": 481,
+     "x1": 256,
+     "y1": 507
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 63,
+   "y0": 481,
+   "x1": 256,
+   "y1": 507
+  },
+  "confidence": 96
+ },
+ {
+  "text": "DGFIP IMPOT",
+  "segments": [
+   "DGFIP IMPOT"
+  ],
+  "words": [
+   {
+    "text": "DGFIP",
+    "confidence": 90,
+    "bbox": {
+     "x0": 63,
+     "y0": 610,
+     "x1": 195,
+     "y1": 643
+    }
+   },
+   {
+    "text": "IMPOT",
+    "confidence": 88,
+    "bbox": {
+     "x0": 213,
+     "y0": 610,
+     "x1": 351,
+     "y1": 643
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 63,
+   "y0": 610,
+   "x1": 351,
+   "y1": 643
+  },
+  "confidence": 89
+ },
+ {
+  "text": "Mandat actif",
+  "segments": [
+   "Mandat actif"
+  ],
+  "words": [
+   {
+    "text": "Mandat",
+    "confidence": 96,
+    "bbox": {
+     "x0": 63,
+     "y0": 667,
+     "x1": 180,
+     "y1": 693
+    }
+   },
+   {
+    "text": "actif",
+    "confidence": 96,
+    "bbox": {
+     "x0": 192,
+     "y0": 667,
+     "x1": 256,
+     "y1": 693
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 63,
+   "y0": 667,
+   "x1": 256,
+   "y1": 693
+  },
+  "confidence": 96
+ },
+ {
+  "text": "CLUB FORME PLUS",
+  "segments": [
+   "CLUB FORME PLUS"
+  ],
+  "words": [
+   {
+    "text": "CLUB",
+    "confidence": 96,
+    "bbox": {
+     "x0": 62,
+     "y0": 796,
+     "x1": 178,
+     "y1": 829
+    }
+   },
+   {
+    "text": "FORME",
+    "confidence": 95,
+    "bbox": {
+     "x0": 196,
+     "y0": 796,
+     "x1": 353,
+     "y1": 829
+    }
+   },
+   {
+    "text": "PLUS",
+    "confidence": 96,
+    "bbox": {
+     "x0": 371,
+     "y0": 796,
+     "x1": 483,
+     "y1": 829
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 62,
+   "y0": 796,
+   "x1": 483,
+   "y1": 829
+  },
+  "confidence": 95.6
+ },
+ {
+  "text": "Mandat actif",
+  "segments": [
+   "Mandat actif"
+  ],
+  "words": [
+   {
+    "text": "Mandat",
+    "confidence": 96,
+    "bbox": {
+     "x0": 63,
+     "y0": 853,
+     "x1": 180,
+     "y1": 879
+    }
+   },
+   {
+    "text": "actif",
+    "confidence": 96,
+    "bbox": {
+     "x0": 192,
+     "y0": 853,
+     "x1": 256,
+     "y1": 879
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 63,
+   "y0": 853,
+   "x1": 256,
+   "y1": 879
+  },
+  "confidence": 96
+ },
+ {
+  "text": "ONDEA MUSIQUE",
+  "segments": [
+   "ONDEA MUSIQUE"
+  ],
+  "words": [
+   {
+    "text": "ONDEA",
+    "confidence": 91,
+    "bbox": {
+     "x0": 62,
+     "y0": 982,
+     "x1": 220,
+     "y1": 1015
+    }
+   },
+   {
+    "text": "MUSIQUE",
+    "confidence": 95,
+    "bbox": {
+     "x0": 233,
+     "y0": 982,
+     "x1": 438,
+     "y1": 1023
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 62,
+   "y0": 982,
+   "x1": 438,
+   "y1": 1023
+  },
+  "confidence": 93.3
+ },
+ {
+  "text": "Mandat actif",
+  "segments": [
+   "Mandat actif"
+  ],
+  "words": [
+   {
+    "text": "Mandat",
+    "confidence": 96,
+    "bbox": {
+     "x0": 63,
+     "y0": 1039,
+     "x1": 180,
+     "y1": 1065
+    }
+   },
+   {
+    "text": "actif",
+    "confidence": 96,
+    "bbox": {
+     "x0": 192,
+     "y0": 1039,
+     "x1": 256,
+     "y1": 1065
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 63,
+   "y0": 1039,
+   "x1": 256,
+   "y1": 1065
+  },
+  "confidence": 96
+ }
+]

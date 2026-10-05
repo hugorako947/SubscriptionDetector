@@ -78,6 +78,7 @@ export default function DebugOcr() {
 
   const run = async () => {
     setPages([])
+    ;(window as unknown as { __ocrPages?: unknown[] }).__ocrPages = []
     for (const [index, file] of files.entries()) {
       const label = `Lecture de la capture ${index + 1} sur ${files.length}`
       setProgress(label)
@@ -88,6 +89,9 @@ export default function DebugOcr() {
         const { canvas, ...rest } = result
         const view: PageView = { ...rest, name: file.name, preview: toPreview(canvas) }
         setPages((list) => [...list, view])
+        // Lets a test script read the OCR output (used to build tests/fixtures/ocr/).
+        const debugWindow = window as unknown as { __ocrPages?: unknown[] }
+        debugWindow.__ocrPages = [...(debugWindow.__ocrPages ?? []), { name: file.name, lines: rest.lines }]
       } catch (error) {
         logError(`${file.name} : ${error instanceof Error ? error.message : String(error)}`)
       }

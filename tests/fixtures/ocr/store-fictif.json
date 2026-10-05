@@ -1,0 +1,612 @@
+[
+ {
+  "text": "Abonnements",
+  "segments": [
+   "Abonnements"
+  ],
+  "words": [
+   {
+    "text": "Abonnements",
+    "confidence": 96,
+    "bbox": {
+     "x0": 62,
+     "y0": 181,
+     "x1": 657,
+     "y1": 247
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 62,
+   "y0": 181,
+   "x1": 657,
+   "y1": 247
+  },
+  "confidence": 96
+ },
+ {
+  "text": "Actifs",
+  "segments": [
+   "Actifs"
+  ],
+  "words": [
+   {
+    "text": "Actifs",
+    "confidence": 96,
+    "bbox": {
+     "x0": 61,
+     "y0": 344,
+     "x1": 167,
+     "y1": 373
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 61,
+   "y0": 344,
+   "x1": 167,
+   "y1": 373
+  },
+  "confidence": 96
+ },
+ {
+  "text": "Cinéflux",
+  "segments": [
+   "Cinéflux"
+  ],
+  "words": [
+   {
+    "text": "Cinéflux",
+    "confidence": 92,
+    "bbox": {
+     "x0": 98,
+     "y0": 439,
+     "x1": 285,
+     "y1": 475
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 98,
+   "y0": 439,
+   "x1": 285,
+   "y1": 475
+  },
+  "confidence": 92
+ },
+ {
+  "text": "4,99 € / mois",
+  "segments": [
+   "4,99 € / mois"
+  ],
+  "words": [
+   {
+    "text": "4,99",
+    "confidence": 96,
+    "bbox": {
+     "x0": 97,
+     "y0": 504,
+     "x1": 170,
+     "y1": 536
+    }
+   },
+   {
+    "text": "€",
+    "confidence": 92,
+    "bbox": {
+     "x0": 183,
+     "y0": 504,
+     "x1": 204,
+     "y1": 531
+    }
+   },
+   {
+    "text": "/",
+    "confidence": 92,
+    "bbox": {
+     "x0": 216,
+     "y0": 503,
+     "x1": 226,
+     "y1": 532
+    }
+   },
+   {
+    "text": "mois",
+    "confidence": 95,
+    "bbox": {
+     "x0": 240,
+     "y0": 503,
+     "x1": 318,
+     "y1": 532
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 97,
+   "y0": 503,
+   "x1": 318,
+   "y1": 536
+  },
+  "confidence": 94.8
+ },
+ {
+  "text": "Renouvellement le 12 octobre",
+  "segments": [
+   "Renouvellement le 12 octobre"
+  ],
+  "words": [
+   {
+    "text": "Renouvellement",
+    "confidence": 96,
+    "bbox": {
+     "x0": 99,
+     "y0": 554,
+     "x1": 378,
+     "y1": 583
+    }
+   },
+   {
+    "text": "le",
+    "confidence": 95,
+    "bbox": {
+     "x0": 391,
+     "y0": 554,
+     "x1": 417,
+     "y1": 582
+    }
+   },
+   {
+    "text": "12",
+    "confidence": 96,
+    "bbox": {
+     "x0": 433,
+     "y0": 555,
+     "x1": 471,
+     "y1": 582
+    }
+   },
+   {
+    "text": "octobre",
+    "confidence": 95,
+    "bbox": {
+     "x0": 486,
+     "y0": 554,
+     "x1": 613,
+     "y1": 583
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 99,
+   "y0": 554,
+   "x1": 613,
+   "y1": 583
+  },
+  "confidence": 95.6
+ },
+ {
+  "text": "Nuagerie Pro",
+  "segments": [
+   "Nuagerie Pro"
+  ],
+  "words": [
+   {
+    "text": "Nuagerie",
+    "confidence": 91,
+    "bbox": {
+     "x0": 99,
+     "y0": 670,
+     "x1": 300,
+     "y1": 715
+    }
+   },
+   {
+    "text": "Pro",
+    "confidence": 96,
+    "bbox": {
+     "x0": 318,
+     "y0": 672,
+     "x1": 393,
+     "y1": 706
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 99,
+   "y0": 670,
+   "x1": 393,
+   "y1": 715
+  },
+  "confidence": 92.4
+ },
+ {
+  "text": "29,99 € / an",
+  "segments": [
+   "29,99 € / an"
+  ],
+  "words": [
+   {
+    "text": "29,99",
+    "confidence": 95,
+    "bbox": {
+     "x0": 98,
+     "y0": 735,
+     "x1": 192,
+     "y1": 767
+    }
+   },
+   {
+    "text": "€",
+    "confidence": 90,
+    "bbox": {
+     "x0": 205,
+     "y0": 735,
+     "x1": 226,
+     "y1": 763
+    }
+   },
+   {
+    "text": "/",
+    "confidence": 90,
+    "bbox": {
+     "x0": 237,
+     "y0": 734,
+     "x1": 248,
+     "y1": 763
+    }
+   },
+   {
+    "text": "an",
+    "confidence": 96,
+    "bbox": {
+     "x0": 260,
+     "y0": 741,
+     "x1": 300,
+     "y1": 762
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 98,
+   "y0": 734,
+   "x1": 300,
+   "y1": 767
+  },
+  "confidence": 94.1
+ },
+ {
+  "text": "Renouvellement le 3 mars",
+  "segments": [
+   "Renouvellement le 3 mars"
+  ],
+  "words": [
+   {
+    "text": "Renouvellement",
+    "confidence": 95,
+    "bbox": {
+     "x0": 99,
+     "y0": 785,
+     "x1": 378,
+     "y1": 814
+    }
+   },
+   {
+    "text": "le",
+    "confidence": 94,
+    "bbox": {
+     "x0": 391,
+     "y0": 785,
+     "x1": 417,
+     "y1": 813
+    }
+   },
+   {
+    "text": "3",
+    "confidence": 96,
+    "bbox": {
+     "x0": 431,
+     "y0": 786,
+     "x1": 450,
+     "y1": 814
+    }
+   },
+   {
+    "text": "mars",
+    "confidence": 96,
+    "bbox": {
+     "x0": 465,
+     "y0": 792,
+     "x1": 548,
+     "y1": 813
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 99,
+   "y0": 785,
+   "x1": 548,
+   "y1": 814
+  },
+  "confidence": 95.1
+ },
+ {
+  "text": "Carnet Malin",
+  "segments": [
+   "Carnet Malin"
+  ],
+  "words": [
+   {
+    "text": "Carnet",
+    "confidence": 96,
+    "bbox": {
+     "x0": 98,
+     "y0": 902,
+     "x1": 248,
+     "y1": 937
+    }
+   },
+   {
+    "text": "Malin",
+    "confidence": 96,
+    "bbox": {
+     "x0": 265,
+     "y0": 901,
+     "x1": 381,
+     "y1": 937
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 98,
+   "y0": 901,
+   "x1": 381,
+   "y1": 937
+  },
+  "confidence": 96
+ },
+ {
+  "text": "Essai gratuit jusqu'au 20 octobre",
+  "segments": [
+   "Essai gratuit jusqu'au 20 octobre"
+  ],
+  "words": [
+   {
+    "text": "Essai",
+    "confidence": 95,
+    "bbox": {
+     "x0": 99,
+     "y0": 965,
+     "x1": 189,
+     "y1": 993
+    }
+   },
+   {
+    "text": "gratuit",
+    "confidence": 96,
+    "bbox": {
+     "x0": 204,
+     "y0": 965,
+     "x1": 310,
+     "y1": 1001
+    }
+   },
+   {
+    "text": "jusqu'au",
+    "confidence": 96,
+    "bbox": {
+     "x0": 321,
+     "y0": 965,
+     "x1": 463,
+     "y1": 1001
+    }
+   },
+   {
+    "text": "20",
+    "confidence": 96,
+    "bbox": {
+     "x0": 478,
+     "y0": 966,
+     "x1": 518,
+     "y1": 993
+    }
+   },
+   {
+    "text": "octobre",
+    "confidence": 96,
+    "bbox": {
+     "x0": 532,
+     "y0": 965,
+     "x1": 659,
+     "y1": 994
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 99,
+   "y0": 965,
+   "x1": 659,
+   "y1": 1001
+  },
+  "confidence": 95.8
+ },
+ {
+  "text": "puis 2,99 € / mois",
+  "segments": [
+   "puis 2,99 € / mois"
+  ],
+  "words": [
+   {
+    "text": "puis",
+    "confidence": 96,
+    "bbox": {
+     "x0": 99,
+     "y0": 1016,
+     "x1": 166,
+     "y1": 1052
+    }
+   },
+   {
+    "text": "2,99",
+    "confidence": 96,
+    "bbox": {
+     "x0": 180,
+     "y0": 1017,
+     "x1": 252,
+     "y1": 1049
+    }
+   },
+   {
+    "text": "€",
+    "confidence": 92,
+    "bbox": {
+     "x0": 266,
+     "y0": 1017,
+     "x1": 286,
+     "y1": 1044
+    }
+   },
+   {
+    "text": "/",
+    "confidence": 92,
+    "bbox": {
+     "x0": 298,
+     "y0": 1016,
+     "x1": 308,
+     "y1": 1045
+    }
+   },
+   {
+    "text": "mois",
+    "confidence": 96,
+    "bbox": {
+     "x0": 322,
+     "y0": 1016,
+     "x1": 400,
+     "y1": 1045
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 99,
+   "y0": 1016,
+   "x1": 400,
+   "y1": 1052
+  },
+  "confidence": 95.4
+ },
+ {
+  "text": "Expirés",
+  "segments": [
+   "Expirés"
+  ],
+  "words": [
+   {
+    "text": "Expirés",
+    "confidence": 92,
+    "bbox": {
+     "x0": 63,
+     "y0": 1165,
+     "x1": 199,
+     "y1": 1202
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 63,
+   "y0": 1165,
+   "x1": 199,
+   "y1": 1202
+  },
+  "confidence": 92
+ },
+ {
+  "text": "Vieux Jeu",
+  "segments": [
+   "Vieux Jeu"
+  ],
+  "words": [
+   {
+    "text": "Vieux",
+    "confidence": 96,
+    "bbox": {
+     "x0": 96,
+     "y0": 1261,
+     "x1": 223,
+     "y1": 1297
+    }
+   },
+   {
+    "text": "Jeu",
+    "confidence": 96,
+    "bbox": {
+     "x0": 237,
+     "y0": 1263,
+     "x1": 316,
+     "y1": 1297
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 96,
+   "y0": 1261,
+   "x1": 316,
+   "y1": 1297
+  },
+  "confidence": 96
+ },
+ {
+  "text": "Expiré le 2 juin",
+  "segments": [
+   "Expiré le 2 juin"
+  ],
+  "words": [
+   {
+    "text": "Expiré",
+    "confidence": 92,
+    "bbox": {
+     "x0": 99,
+     "y0": 1324,
+     "x1": 205,
+     "y1": 1361
+    }
+   },
+   {
+    "text": "le",
+    "confidence": 96,
+    "bbox": {
+     "x0": 220,
+     "y0": 1325,
+     "x1": 246,
+     "y1": 1353
+    }
+   },
+   {
+    "text": "2",
+    "confidence": 96,
+    "bbox": {
+     "x0": 260,
+     "y0": 1326,
+     "x1": 278,
+     "y1": 1353
+    }
+   },
+   {
+    "text": "juin",
+    "confidence": 96,
+    "bbox": {
+     "x0": 290,
+     "y0": 1325,
+     "x1": 349,
+     "y1": 1361
+    }
+   }
+  ],
+  "bbox": {
+   "x0": 99,
+   "y0": 1324,
+   "x1": 349,
+   "y1": 1361
+  },
+  "confidence": 94.2
+ }
+]
