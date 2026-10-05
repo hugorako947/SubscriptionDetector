@@ -27,15 +27,23 @@ const DNS_ATTEMPTS = 30
  * browser then fails too. This is what happened with the first version.
  */
 const publicDns = new Resolver({ timeout: 3000, tries: 1 })
-publicDns.setServers(['1.1.1.1', '8.8.8.8'])
+publicDns.setServers((process.env.TELEPHONE_DNS_SERVERS ?? '1.1.1.1,8.8.8.8').split(','))
+/** Consecutive network errors before concluding that public DNS is blocked on this network. */
+const DNS_ERRORS_BEFORE_FALLBACK = 5
+/** Before asking the computer's own DNS, leave time for the new name to be published. */
+const SYSTEM_DNS_DELAY_MS = 20_000
 
-/** IPv4 of the hostname per public DNS, null if not published yet, 'blocked' if public DNS is unreachable. */
+/**
+ * { address } once published, { pending } while the name does not exist yet,
+ * { error } for anything else (timeout, refused, server failure): retried, since
+ * one failed query proves nothing.
+ */
 async function publicLookup(hostname) {
   try {
     const [address] = await publicDns.resolve4(hostname)
-    return address ?? null
+    return address ? { address } : { pending: true }
   } catch (error) {
-    return error.code === 'ENOTFOUND' || error.code === 'ENODATA' ? null : 'blocked'
+    return error.code === 'ENOTFOUND' || error.code === 'ENODATA' ? { pending: true } : { error: error.code ?? 'erreur' }
   }
 }
 
@@ -166,6 +174,41 @@ for (const stream of [tunnel.stdout, tunnel.stderr]) {
   })
 }
 
+/** QR code in the terminal: the phone does not need this computer to open the address. */
+async function printQr(title) {
+  const qr = await QRCode.toString(`${publicUrl}/`, { type: 'terminal', small: true })
+  console.log(
+    `\n${title} Scanne ce code avec ton téléphone :\n\n${qr}\n` +
+      `  Adresse : ${publicUrl}\n` +
+      `  Sur ce PC, sans tunnel : ${LOCAL_URL}/\n\n` +
+      `  Sur le téléphone, de préférence en 4G/5G (Wi-Fi coupé) : le réseau mobile ne\n` +
+      `  dépend pas de la box, qui peut mettre quelques minutes à connaître cette adresse.\n` +
+      `  Sur ce PC, si le navigateur dit « adresse introuvable » : attends une minute,\n` +
+      `  ou lance « ipconfig /flushdns » dans un autre terminal, puis recharge.\n\n` +
+      `  Garde cette fenêtre ouverte pendant le test. Ctrl+C pour tout arrêter.\n` +
+      `  L'adresse est publique tant que le tunnel tourne.\n`,
+  )
+}
+
+/** Fallback when public DNS is blocked: a normal request, resolved by this computer. */
+async function checkWithSystemDns() {
+  let status
+  for (let attempt = 1; attempt <= CHECK_ATTEMPTS; attempt++) {
+    status = await httpStatus(`${publicUrl}/`)
+    if (status === 200) {
+      await printQr('✔ Tout fonctionne.')
+      return
+    }
+    process.stdout.write(`  essai ${attempt}/${CHECK_ATTEMPTS} : ${status}\n`)
+    await sleep(CHECK_INTERVAL_MS)
+  }
+  await printQr('Vérification impossible depuis ce PC, mais le tunnel tourne peut-être.')
+  fail(
+    `Ce PC n'arrive pas à joindre ${publicUrl} (${status}). Scanne le QR code ci-dessus en 4G :\n` +
+      "  si la page s'ouvre, le tunnel marche et seul le DNS de ce PC ou de la box est en cause.",
+  )
+}
+
 // 3. End-to-end check, from the internet back to this computer.
 async function checkEndToEnd() {
   if (checking || !publicUrl) return
@@ -174,23 +217,41 @@ async function checkEndToEnd() {
 
   say("Attente de la publication de l'adresse sur internet (DNS public) ...")
   let address = null
+  let consecutiveErrors = 0
+  let lastError = null
   for (let attempt = 1; attempt <= DNS_ATTEMPTS && !address; attempt++) {
     const result = await publicLookup(hostname)
-    if (result === 'blocked') {
-      fail(
-        'Les DNS publics (1.1.1.1, 8.8.8.8) sont injoignables depuis ce réseau : vérification impossible.\n' +
-          `  Attends une minute, puis ouvre ${publicUrl} directement sur ton téléphone.`,
-      )
-      return
+    if (result.address) {
+      address = result.address
+      break
     }
-    address = result
-    if (!address) {
+    if (result.error) {
+      consecutiveErrors++
+      lastError = result.error
+      process.stdout.write(`  essai ${attempt}/${DNS_ATTEMPTS} : DNS public injoignable (${result.error})\n`)
+      if (consecutiveErrors >= DNS_ERRORS_BEFORE_FALLBACK) break
+    } else {
+      consecutiveErrors = 0
       process.stdout.write(`  essai ${attempt}/${DNS_ATTEMPTS} : adresse pas encore publiée\n`)
-      await sleep(CHECK_INTERVAL_MS)
     }
+    await sleep(CHECK_INTERVAL_MS)
+  }
+
+  if (!address && consecutiveErrors >= DNS_ERRORS_BEFORE_FALLBACK) {
+    // Some networks (box settings, antivirus, VPN, company network) block DNS servers
+    // other than their own. Fall back to this computer's DNS, after a delay so the
+    // name already exists when it is asked (see the comment on publicDns).
+    say(
+      `Les DNS publics ne répondent pas sur ce réseau (${lastError}). ` +
+        `Vérification par le DNS de cet ordinateur dans ${SYSTEM_DNS_DELAY_MS / 1000} s ...`,
+    )
+    await sleep(SYSTEM_DNS_DELAY_MS)
+    await checkWithSystemDns()
+    return
   }
   if (!address) {
-    fail(`L'adresse ${hostname} n'a jamais été publiée. Arrête (Ctrl+C) et relance la commande.`)
+    await printQr('Adresse pas encore visible sur internet : vérification impossible pour l\'instant.')
+    fail(`L'adresse ${hostname} n'a pas été publiée à temps. Essaie quand même le QR code ci-dessus ; sinon Ctrl+C et relance.`)
     return
   }
 
@@ -199,17 +260,7 @@ async function checkEndToEnd() {
   for (let attempt = 1; attempt <= CHECK_ATTEMPTS; attempt++) {
     status = await tunnelStatus(`${publicUrl}/`, address)
     if (status === 200) {
-      const qr = await QRCode.toString(`${publicUrl}/`, { type: 'terminal', small: true })
-      console.log(
-        `\n✔ Tout fonctionne. Scanne ce code avec ton téléphone :\n\n${qr}\n` +
-          `  Adresse : ${publicUrl}\n\n` +
-          `  Sur le téléphone, de préférence en 4G/5G (Wi-Fi coupé) : le réseau mobile ne\n` +
-          `  dépend pas de la box, qui peut mettre quelques minutes à connaître cette adresse.\n` +
-          `  Sur ce PC, si le navigateur dit « adresse introuvable » : attends une minute,\n` +
-          `  ou lance « ipconfig /flushdns » dans un autre terminal, puis recharge.\n\n` +
-          `  Garde cette fenêtre ouverte pendant le test. Ctrl+C pour tout arrêter.\n` +
-          `  L'adresse est publique tant que le tunnel tourne.\n`,
-      )
+      await printQr('✔ Tout fonctionne.')
       return
     }
     // 502: tunnel connected but cannot reach the preview. 530 (error 1033): no connector yet.

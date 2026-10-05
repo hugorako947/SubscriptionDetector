@@ -92,7 +92,8 @@ En cas d'échec, la commande affiche le code d'erreur et les dernières erreurs 
 
 - **502** : le tunnel est connecté mais n'atteint pas l'aperçu sur le PC ;
 - **530** (page « Error 1033 ») : aucun tunnel connecté pour cette adresse ;
-- **adresse jamais publiée** : relance la commande, une nouvelle adresse sera créée.
+- **adresse jamais publiée** : essaie quand même le QR code affiché, sinon relance la commande ;
+- **DNS publics injoignables** : certains réseaux (réglage de box, antivirus, VPN, réseau d'entreprise) bloquent 1.1.1.1 et 8.8.8.8. La commande réessaie, puis vérifie avec le DNS du PC après 20 secondes, et affiche le QR code dans tous les cas.
 
 La vérification interroge des DNS publics (1.1.1.1 et 8.8.8.8), jamais celui du PC. Un DNS interrogé trop tôt (Windows, ou la box) retient pendant plusieurs minutes que « cette adresse n'existe pas ». Le navigateur affiche alors « adresse introuvable » alors que le tunnel marche. Les parades :
 
