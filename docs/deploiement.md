@@ -64,40 +64,39 @@ npx wrangler pages deploy dist --project-name detecteur-abonnements
 
 ## 2. Tunnel HTTPS gratuit (rapide, sans déployer)
 
-Un « Quick Tunnel » Cloudflare donne une adresse HTTPS temporaire qui pointe vers ton PC. Aucun compte n'est nécessaire.
+Un « Quick Tunnel » Cloudflare donne une adresse HTTPS temporaire qui pointe vers ton PC, sans compte. L'adresse est publique tant que le tunnel tourne : arrête-le après tes tests. Les en-têtes de sécurité sont ceux de `vite preview`, qui reprend la même CSP.
 
-À savoir : l'adresse est publique tant que le tunnel tourne. Ferme-le après tes tests. Les en-têtes de sécurité sont ceux de `vite preview`, qui reprend la même CSP.
+Installation, une seule fois (`TODO(vérifier)` l'identifiant avec `winget search cloudflared`) :
 
 ```powershell
-# Une seule fois. TODO(vérifier) l'identifiant avec : winget search cloudflared
 winget install --id Cloudflare.cloudflared -e
 ```
 
-Terminal 1 :
+Ferme puis rouvre ensuite ton terminal, y compris celui de ton éditeur, pour qu'il trouve `cloudflared`.
+
+Ensuite, **une seule commande, dans un seul terminal** :
 
 ```powershell
-cd C:\dev\detecteur-abonnements
-npm run preview:prod
+npm run telephone
 ```
 
-Terminal 2 :
+Elle construit l'appli, démarre l'aperçu sur `127.0.0.1:4173`, ouvre le tunnel, puis vérifie elle-même le chemin complet : internet, tunnel, puis ton PC. Elle n'affiche « ✔ Tout fonctionne » qu'une fois la page réellement joignable par l'adresse publique. Ouvre alors cette adresse sur ton PC et scanne le QR code. Ctrl+C arrête tout.
+
+Si le réseau bloque le protocole par défaut de cloudflared (QUIC, en UDP) :
 
 ```powershell
-npm run tunnel
+npm run telephone -- --http2
 ```
 
-Ce script lance `cloudflared tunnel --url http://127.0.0.1:4173`. L'adresse est écrite `127.0.0.1` et non `localhost` : sous Windows, `localhost` peut désigner l'IPv6 (`::1`) pour Node et l'IPv4 pour cloudflared. Le tunnel ne trouve alors pas le serveur, et Cloudflare affiche « Bad gateway, Error code 502 ». L'aperçu écoute donc toujours sur `127.0.0.1:4173` (`vite.config.ts`).
+En cas d'échec, la commande affiche le code d'erreur et les dernières erreurs de cloudflared :
 
-En cas de 502 malgré tout :
+- **502** : le tunnel est connecté mais n'atteint pas l'aperçu sur le PC ;
+- **530** (page « Error 1033 ») : aucun tunnel connecté pour cette adresse ;
+- **ENOTFOUND** : l'adresse est trop récente, elle n'est pas encore connue sur internet.
 
-- vérifie que le terminal 1 tourne encore et affiche `http://127.0.0.1:4173/` ;
-- `curl.exe -sI http://127.0.0.1:4173/` doit répondre `HTTP/1.1 200 OK` ;
-- `netstat -ano | findstr :4173` montre sur quelle adresse le serveur écoute ;
-- lis la dernière erreur du terminal 2 (ligne `ERR ... dial tcp ...`).
+`vite.config.ts` fixe l'aperçu sur `127.0.0.1` (et non `localhost`, qui peut désigner l'IPv6 sous Windows) et autorise les adresses `.trycloudflare.com` (`preview.allowedHosts`).
 
-cloudflared affiche une adresse en `https://….trycloudflare.com`. Ouvre-la sur ton PC et scanne le QR code. `vite.config.ts` autorise déjà ces adresses (`preview.allowedHosts`) ; sans ce réglage, Vite refuserait la connexion.
-
-Teste toujours le **build** (`preview:prod`), jamais `npm run dev` : le service worker n'est pas actif en développement.
+Teste toujours le **build**, jamais `npm run dev` : le service worker n'est pas actif en développement.
 
 ## 3. Android en USB (débogage)
 

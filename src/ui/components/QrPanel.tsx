@@ -60,8 +60,8 @@ export function QrPanel() {
         <div role="note" className="mt-4 rounded-md bg-mark px-4 py-3 text-mark-ink">
           <p className="font-bold">Pas de QR code sur {url}</p>
           <p className="mt-1">
-            Sur un téléphone, « localhost » désigne le téléphone lui-même, pas cet ordinateur. Ouvre ce site par un
-            tunnel HTTPS ou un déploiement d'aperçu : le code apparaîtra ici (voir docs/deploiement.md).
+            Sur un téléphone, cette adresse désigne le téléphone lui-même, pas cet ordinateur. Lance « npm run
+            telephone » et ouvre sur ce PC l'adresse HTTPS qu'il affiche : le QR code apparaîtra ici.
           </p>
         </div>
       )}
