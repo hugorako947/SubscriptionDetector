@@ -45,6 +45,28 @@ describe('groupIntoLines', () => {
     expect(tight).toHaveLength(2)
   })
 
+  it('keeps short lowercase words on the line of taller capitalised words', () => {
+    // Real case from the fictional fixture: "Compte" (cap + descender) and "courant" (x-height only).
+    const mixed = groupIntoLines([
+      w('Compte', 40, 300, 160, 338),
+      w('courant', 172, 309, 300, 331),
+      w('Solde', 330, 300, 420, 331),
+      w('1', 440, 301, 452, 331),
+      w('234,56', 466, 301, 590, 336),
+      w('€', 600, 301, 620, 331),
+    ])
+    expect(mixed.map((l) => l.text)).toEqual(['Compte courant Solde 1 234,56 €'])
+  })
+
+  it('keeps an amount centred between a label and its sub-label on its own line (paired in phase 3)', () => {
+    const rows = groupIntoLines([
+      w('CINÉFLUX', 40, 558, 380, 586),
+      w('−11,99', 880, 589, 990, 616),
+      w('Prélèvement', 40, 622, 200, 645),
+    ])
+    expect(rows.map((l) => l.text)).toEqual(['CINÉFLUX', '−11,99', 'Prélèvement'])
+  })
+
   it('ignores empty words', () => {
     expect(groupIntoLines([w(' ', 0, 0, 10, 10), w('Texte', 0, 0, 50, 10)])).toHaveLength(1)
   })

@@ -8,6 +8,7 @@ import type { BBox, OcrLine, OcrWord } from './types'
 const height = (b: BBox) => b.y1 - b.y0
 const centerY = (b: BBox) => (b.y0 + b.y1) / 2
 
+
 function median(values: number[]): number {
   const sorted = [...values].sort((a, b) => a - b)
   const middle = Math.floor(sorted.length / 2)
@@ -26,10 +27,23 @@ function unionBox(words: OcrWord[]): BBox {
 /** A gap wider than this many line heights starts a new segment (label | amount). */
 export const SEGMENT_GAP_IN_LINE_HEIGHTS = 1.5
 
+/**
+ * A word joins a line when their vertical ranges overlap by at least this
+ * share of the smaller height. Overlap (not centre distance) is used because a
+ * lowercase word without ascenders ("courant") has a much shorter box than a
+ * capitalised one ("Compte") on the same line.
+ */
+export const MIN_VERTICAL_OVERLAP = 0.5
+
 interface Row {
   words: OcrWord[]
-  center: number
-  height: number
+  y0: number
+  y1: number
+}
+
+function overlapRatio(a: { y0: number; y1: number }, b: { y0: number; y1: number }): number {
+  const overlap = Math.min(a.y1, b.y1) - Math.max(a.y0, b.y0)
+  return overlap <= 0 ? 0 : overlap / Math.min(a.y1 - a.y0, b.y1 - b.y0)
 }
 
 export function groupIntoLines(input: readonly OcrWord[]): OcrLine[] {
@@ -39,24 +53,21 @@ export function groupIntoLines(input: readonly OcrWord[]): OcrLine[] {
 
   const rows: Row[] = []
   for (const word of words) {
-    const wordCenter = centerY(word.bbox)
-    const wordHeight = height(word.bbox)
     let best: Row | null = null
-    let bestDistance = Infinity
+    let bestRatio = MIN_VERTICAL_OVERLAP
     for (const row of rows) {
-      const distance = Math.abs(row.center - wordCenter)
-      const tolerance = 0.5 * Math.min(row.height, wordHeight)
-      if (distance <= tolerance && distance < bestDistance) {
+      const ratio = overlapRatio(row, word.bbox)
+      if (ratio >= bestRatio) {
         best = row
-        bestDistance = distance
+        bestRatio = ratio
       }
     }
     if (best) {
       best.words.push(word)
-      best.center = best.words.reduce((sum, w) => sum + centerY(w.bbox), 0) / best.words.length
-      best.height = median(best.words.map((w) => height(w.bbox)))
+      best.y0 = Math.min(best.y0, word.bbox.y0)
+      best.y1 = Math.max(best.y1, word.bbox.y1)
     } else {
-      rows.push({ words: [word], center: wordCenter, height: wordHeight })
+      rows.push({ words: [word], y0: word.bbox.y0, y1: word.bbox.y1 })
     }
   }
 
@@ -67,7 +78,7 @@ export function groupIntoLines(input: readonly OcrWord[]): OcrLine[] {
 
 function toLine(row: Row): OcrLine {
   const words = [...row.words].sort((a, b) => a.bbox.x0 - b.bbox.x0)
-  const maxGap = SEGMENT_GAP_IN_LINE_HEIGHTS * row.height
+  const maxGap = SEGMENT_GAP_IN_LINE_HEIGHTS * median(words.map((w) => height(w.bbox)))
   const segments: string[][] = [[]]
   words.forEach((word, index) => {
     const previous = words[index - 1]
