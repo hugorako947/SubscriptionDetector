@@ -10,6 +10,8 @@ import { stripAccents } from './text'
 /** Payment-type markers, checked on the uppercase accentless label. TODO(vérifier) with real statements. */
 const KIND_PATTERNS: Array<[RegExp, PaymentKind]> = [
   [/^(VIR|VIREMENT|VIRT)\b/, 'transfer'],
+  // A civility title means a person: a transfer, whose name must never be shown.
+  [/^(M|MR|MME|MLLE|MONSIEUR|MADAME|MADEMOISELLE)\.? (ET (M|MR|MME)\.? )?[A-Z]{2,}/, 'transfer'],
   [/^(PRLV|PRELEVEMENT|PRELEV|PRLVT|ECH(EANCE)? PRLV)\b/, 'sepa'],
   [/\bSEPA\b(?!.*\bVIR)/, 'sepa'],
   [/^(CB|CARTE|PAIEMENT (PAR )?(CARTE|CB)|ACHAT (CB|CARTE)|FACTURE CARTE|PAIEMENT)\b/, 'card'],

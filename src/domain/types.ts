@@ -27,6 +27,7 @@ export type Category =
   | 'banque'
   | 'applis'
   | 'essai'
+  | 'transport'
   | 'autre'
 
 export interface Transaction {

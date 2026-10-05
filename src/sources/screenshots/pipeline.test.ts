@@ -118,3 +118,39 @@ describe('transfers between people', () => {
     expect(JSON.stringify({ transactions, result })).not.toMatch(/DUPONT|JEAN/)
   })
 })
+
+describe('bank app printing the date under each label (layout seen on a real app, invented data)', () => {
+  it('gives every row its own date, joins a label written on two lines, finds no-PRLV subscriptions', () => {
+    const lines = load('banque-date-sous-libelle')
+    expect(parseBankList(lines, referenceDay).map((e) => [e.label, e.amount?.cents, e.date?.iso, e.kind])).toEqual([
+      ['Compte individuel', undefined, undefined, 'unknown'],
+      ['REMISE COTISATIONS', 995, '2026-05-18', 'unknown'],
+      ['COTISATIONS BANCAIRES', 1595, '2026-05-18', 'unknown'],
+      ['M DURAND PAUL', 1000, '2026-05-16', 'transfer'],
+      ['PASS NAVIGO / IMAGIN-R', 5000, '2026-05-06', 'unknown'],
+      ['MUTUELLE EXEMPLE', 2310, '2026-05-05', 'unknown'],
+      ['DEBIT DIFFERE N° 1234', 25000, '2026-05-04', 'unknown'],
+      ['BANQUE EXEMPLE ILE DE FRANCE', 540, '2026-05-04', 'unknown'],
+      ['VIREMENT MENSUEL', 2000, '2026-05-04', 'transfer'],
+      ['CB EPICERIE DU COIN', 830, '2026-05-02', 'card'],
+    ])
+    const transactions = screenshotToTransactions('screenshot_card_history', lines, { captureIndex: 0, referenceDay })
+    const result = detectSubscriptions(transactions)
+    expect(result.subscriptions.map((s) => [s.displayName, s.amountCents, s.confidence, s.category])).toEqual([
+      ['Navigo / Imagine R', 5000, 'high', 'transport'],
+      ['Mutuelle Exemple', 2310, 'medium', 'assurance'],
+      ['Cotisations Bancaires', 1595, 'medium', 'banque'],
+    ])
+    expect(result.stats).toMatchObject({ credits: 1, transfers: 2 })
+    // The person's name in a transfer is never kept (rule 4).
+    expect(JSON.stringify({ transactions, result })).not.toContain('DURAND')
+  })
+
+  it('finds nothing on a page without subscriptions, and keeps no name', () => {
+    const transactions = screenshotToTransactions('screenshot_card_history', load('banque-sans-abonnement'), { captureIndex: 0, referenceDay })
+    const result = detectSubscriptions(transactions)
+    expect(result.subscriptions).toEqual([])
+    expect(transactions.filter((t) => t.amountCents !== undefined)).toHaveLength(4)
+    expect(JSON.stringify(transactions)).not.toContain('DURAND')
+  })
+})

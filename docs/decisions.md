@@ -133,3 +133,23 @@ Les crédits et les virements sont écartés, et le texte d'un virement n'est ja
 **Stockage** : Dexie (IndexedDB), version 1 du schéma. Une nouvelle analyse ne touche jamais ce que l'utilisateur a confirmé ou écarté ; elle met à jour les détections encore « à vérifier » et ajoute les nouvelles. L'appli demande au navigateur un stockage persistant. « Tout effacer » supprime la base entière après confirmation.
 
 **Tests** : 205 tests unitaires. Parcours complet vérifié dans Chromium avec les quatre captures fictives (environ 6 s d'analyse) : corrections, statut « À résilier » et économies, essai gratuit, liste mémoire, fichier `.ics`, rechargement, mode hors ligne et « Tout effacer ». Aucune violation de CSP ni erreur dans la console.
+
+## Correctifs après le premier essai réel (5 octobre 2026)
+
+Premier essai sur une vraie capture d'historique, en mode sombre. La lecture OCR était bonne (confiance moyenne 87), mais **aucun abonnement n'a été trouvé, et l'appli revenait à l'écran d'accueil sans rien dire**. Trois causes, toutes corrigées :
+
+1. **Date sous chaque libellé.** Cette appli affiche la date sous chaque opération (« Lun. 18 mai »), pas en tête de groupe, avec un jour abrégé. Ces lignes devenaient de fausses opérations, et les vraies n'avaient pas de date. Désormais, les jours abrégés sont reconnus, et une ligne de date collée sous une opération est rattachée à celle-ci.
+2. **Libellé sur deux lignes.** Une opération écrite sur deux lignes devenait deux opérations. Le seuil de continuation passe de 0,35 à 0,8 hauteur de ligne, et un montant porté par la seconde ligne est bien rattaché.
+3. **Pas de « PRLV » dans les libellés.** L'appli affiche des noms nettoyés (« BPCE ASSURANCES ») et indique le type par une icône, que l'OCR ne lit pas. La règle 2 (prélèvement SEPA) ne pouvait donc pas jouer. Ajouts :
+   - des **mots-clés d'abonnement** (assurance, mutuelle, cotisations bancaires, frais de tenue de compte, abonnement, forfait) donnent une confiance moyenne et une catégorie ;
+   - **Navigo / Imagine R** entre dans le dictionnaire, avec une nouvelle catégorie « Transports » ;
+   - les **débits différés de carte**, encours, soldes et retraits ne sont jamais proposés, même s'ils reviennent chaque mois ;
+   - un libellé fait d'un seul mot de paiement (« PRÉLÈVEMENT ») non plus.
+
+**Protection des noms.** Un libellé commençant par une civilité (« M », « MME », « MONSIEUR »…) est traité comme un virement vers une personne. Son texte n'est jamais gardé (règle 4) : le libellé de ces virements ne contenait pas « VIR ».
+
+**Résultat vide.** Après une analyse, l'appli va toujours au tableau de bord. S'il n'y a rien, elle dit combien d'opérations ont été lues et quelles pages marchent le mieux, avec des liens vers d'autres captures et vers la liste mémoire.
+
+**Fréquence en un geste.** Un abonnement au montant connu mais à la fréquence inconnue affiche deux boutons, « Par mois » et « Par an ».
+
+**Tests de non-régression** sur deux nouvelles captures fictives reprenant cette mise en page (`banque-date-sous-libelle`, `banque-sans-abonnement`), avec des noms et des montants inventés. La vraie capture n'est ni dans le dépôt, ni dans les tests.

@@ -38,7 +38,7 @@ const SUBLABEL =
   /^(PRELEVEMENT( SEPA)?|PRLV( SEPA)?|CARTE( BANCAIRE)?|CB|PAIEMENT( PAR CARTE| CB| CARTE)?|VIREMENT( RECU| EMIS| SEPA| INSTANTANE)?|RETRAIT( DAB)?|DEBIT DIFFERE|ACHAT|AVOIR|MANDAT( ACTIF| SEPA)?)$/
 const CREDIT_WORDS = /\b(VIREMENT RECU|VIR RECU|RECU|REMBOURSEMENT|AVOIR|REMISE)\b/
 /** Lines of the app's own chrome, not operations. TODO(vérifier) with real bank apps. */
-const CHROME = /\b(SOLDE|A VENIR|EN COURS)\b/
+const CHROME = /\b(SOLDE|A VENIR|EN COURS|ENCOURS)\b/
 const PAGE_TITLE =
   /^(MES |VOS )?(OPERATIONS|PRELEVEMENTS|CREANCIERS( AUTORISES)?|MANDATS( SEPA)?|HISTORIQUE|DERNIERES OPERATIONS|COMPTES?|ACTIVITE)$/
 /** Lines this many times taller than the median are page titles. */
@@ -115,15 +115,23 @@ export function parseBankList(lines: readonly OcrLine[], ref: ReferenceDay): Lis
     let item = classify(line, ref, previousLabel, medianHeight)
     const block = blocks[blocks.length - 1]
     if (item.type === 'sublabel' && !(block && item.line.bbox.y0 - bottom(block) < labelHeight(block))) {
-      // Too far from any row: a short label in a smaller font, or a stray payment word.
-      if (!item.bySizeOnly) continue
+      // Too far from any row: it is a row of its own (« VIREMENT RECU », a short label in a smaller font).
       item = { ...item, type: 'label' }
     }
     switch (item.type) {
-      case 'header':
-        currentDate = parseDate(item.text, ref) ?? undefined
-        previousLabel = null
+      case 'header': {
+        const date = parseDate(item.text, ref) ?? undefined
+        // Some apps (Caisse d'Épargne, for one) print the date under each label, not above
+        // a group: a date line right below a row belongs to that row.
+        if (block && date && item.line.bbox.y0 - bottom(block) < labelHeight(block)) {
+          block.date = date
+          block.sublabels.push(item)
+        } else {
+          currentDate = date
+          previousLabel = null
+        }
         break
+      }
       case 'amount':
         looseAmounts.push(item)
         break
@@ -136,9 +144,11 @@ export function parseBankList(lines: readonly OcrLine[], ref: ReferenceDay): Lis
         break
       case 'label': {
         const gap = block ? item.line.bbox.y0 - bottom(block) : Infinity
-        // A label continued on the next line: very close, nothing in between.
-        if (block && !block.amount && block.sublabels.length === 0 && gap < 0.35 * labelHeight(block)) {
+        // A label continued on the next line: close, no amount on the first line, nothing in between.
+        if (block && !block.amount && block.sublabels.length === 0 && gap < 0.8 * labelHeight(block)) {
           block.label.push(item)
+          const amount = lastAmount(item.text)
+          if (amount) block.amount = { parsed: amount, line: item }
         } else {
           const amount = lastAmount(item.text)
           blocks.push({

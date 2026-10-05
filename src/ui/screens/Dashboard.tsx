@@ -18,6 +18,8 @@ import { SubscriptionCard } from '../subscriptions/SubscriptionCard'
 import { SubscriptionSheet, type NewSubscriptionDraft } from '../subscriptions/SubscriptionSheet'
 import { TrialSheet } from '../subscriptions/TrialSheet'
 
+const CONFIDENCE_RANK = { high: 0, medium: 1, low: 2 } as const
+
 type OpenSheet =
   | { kind: 'add' }
   | { kind: 'edit'; item: StoredSubscription }
@@ -63,7 +65,15 @@ export function Dashboard() {
     const all = items ?? []
     const subscriptions = all.filter((s) => s.kind === 'subscription')
     return {
-      pending: subscriptions.filter((s) => s.status === 'pending'),
+      // Same order as the engine: surest first, then the most expensive.
+      pending: subscriptions
+        .filter((s) => s.status === 'pending')
+        .sort(
+          (a, b) =>
+            CONFIDENCE_RANK[a.confidence] - CONFIDENCE_RANK[b.confidence] ||
+            (b.monthlyEquivalentCents ?? 0) - (a.monthlyEquivalentCents ?? 0) ||
+            (b.amountCents ?? 0) - (a.amountCents ?? 0),
+        ),
       mine: subscriptions
         .filter((s) => s.status === 'confirmed')
         .sort((a, b) => Number(a.userStatus === 'cancelled') - Number(b.userStatus === 'cancelled') || (b.monthlyEquivalentCents ?? 0) - (a.monthlyEquivalentCents ?? 0)),
@@ -91,7 +101,7 @@ export function Dashboard() {
           Mes abonnements
         </h1>
 
-        {summary && (
+        {summary && items.length > 0 && (
           <div role="status" className="mb-5 flex items-start gap-3 rounded-xl border-2 border-accent bg-surface p-4">
             <p className="flex-1">
               <strong>
@@ -110,6 +120,7 @@ export function Dashboard() {
           </div>
         )}
 
+        {items.length > 0 && (
         <section aria-label="Total" className="rounded-2xl bg-accent px-5 pt-5 pb-4 text-on-accent">
           <p className="font-bold opacity-90">Tu paies</p>
           <p className="tabular text-[2.75rem] leading-none font-bold tracking-[-0.02em]">
@@ -125,6 +136,7 @@ export function Dashboard() {
             </p>
           )}
         </section>
+        )}
         {totals.savingsYearlyCents > 0 && (
           <p className="mt-3 text-lg">
             En résiliant ce que tu as marqué, tu économises <mark className="highlight px-1 font-bold tabular">{formatEuros(totals.savingsYearlyCents)} par an</mark>.
@@ -166,9 +178,30 @@ export function Dashboard() {
         </Section>
 
         {items.length === 0 && (
-          <section className="mt-8 rounded-xl border border-dashed border-muted p-5">
-            <h2 className="text-lg font-bold">Ta liste est vide</h2>
-            <p className="mt-1 text-muted">Analyse des captures, ou ajoute tes abonnements avec la liste mémoire.</p>
+          <section className="mt-8 rounded-xl border border-dashed border-muted p-5" aria-labelledby="empty-title">
+            <h2 id="empty-title" className="text-lg font-bold">
+              {summary ? 'Rien ne ressemble à un abonnement sur ces captures' : 'Ta liste est vide'}
+            </h2>
+            {summary && summary.operations > 0 && (
+              <p className="mt-1">
+                J'ai bien lu {summary.operations} opération{summary.operations > 1 ? 's' : ''}, mais aucune ne ressemble à un abonnement :
+                courses, virements, remboursements… C'est peut-être juste ce que montrait cette page.
+              </p>
+            )}
+            <p className="mt-3 font-bold">Les pages qui marchent le mieux</p>
+            <ul className="mt-1 list-disc space-y-1 pl-5">
+              <li>la page des prélèvements de ton appli bancaire ;</li>
+              <li>la page des abonnements de l'App Store ou de Google Play ;</li>
+              <li>plusieurs captures de ton historique, sur deux ou trois mois.</li>
+            </ul>
+            <div className="mt-4 flex flex-col items-start gap-1">
+              <Link href={ROUTES.captures} className="inline-flex min-h-11 items-center font-bold text-accent underline decoration-2 underline-offset-4">
+                Analyser d'autres captures
+              </Link>
+              <Link href={ROUTES.memory} className="inline-flex min-h-11 items-center font-bold text-accent underline decoration-2 underline-offset-4">
+                Ajouter avec la liste mémoire
+              </Link>
+            </div>
           </section>
         )}
 

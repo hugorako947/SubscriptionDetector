@@ -32,6 +32,8 @@ Tout ce qui n'a pas pu être confirmé depuis l'environnement de développement.
 - [ ] Valeur de `File.lastModified` pour une image choisie dans la galerie de l'iPhone.
 - [ ] Prise en charge d'OffscreenCanvas par Safari.
 - [ ] Libellés bancaires réels de chaque service du dictionnaire (`src/data/services.ts`), et nom actuel de HBO Max en France.
+- [ ] Fréquence habituelle de Navigo / Imagine R (prélèvements mensuels supposés).
+- [ ] Mots-clés d'abonnement et libellés toujours exclus, sur d'autres banques (`src/detection/keywords.ts`).
 - [ ] Fréquence habituelle des services marqués « inconnue » (salles de sport, Amazon Prime, jeux).
 - [ ] Mots des sous-libellés, titres de page et lignes de solde des vraies applis bancaires (`src/parsing/layout.ts`).
 - [ ] Préfixes et marqueurs de type de paiement sur de vrais relevés (`src/parsing/normalize.ts`).

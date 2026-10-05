@@ -11,6 +11,7 @@ import { SERVICES, type Service } from '../data/services'
 import type { Confidence, DetectedSubscription, Period, Transaction } from '../domain/types'
 import { formatEuros } from '../domain/money'
 import { dedupeTransactions } from './dedupe'
+import { isNeverSubscription, subscriptionKeyword } from './keywords'
 import { jaroWinkler } from './fuzzy'
 import { DEFAULT_MATCH_THRESHOLD, matchIntermediary, matchService } from './matcher'
 import { otherDebitReason } from './nonSubscription'
@@ -39,6 +40,7 @@ interface Group {
   service?: Service
   via?: Service
   otherReason?: string
+  keyword?: ReturnType<typeof subscriptionKeyword>
   transactions: Transaction[]
 }
 
@@ -98,7 +100,7 @@ export function detectSubscriptions(input: readonly Transaction[], options: Dete
       transfers++
       continue
     }
-    if (!transaction.normalizedLabel) {
+    if (!transaction.normalizedLabel || isNeverSubscription(transaction.normalizedLabel)) {
       ignored++
       continue
     }
@@ -123,7 +125,8 @@ export function detectSubscriptions(input: readonly Transaction[], options: Dete
         const other = existing.slice(prefix.length + 1)
         return other === key || (key.length >= 5 && jaroWinkler(other, key) >= SAME_MERCHANT_SIMILARITY)
       })
-      addTo(similar ?? `${prefix}:${key}`, transaction, {})
+      const keyword = subscriptionKeyword(transaction.normalizedLabel)
+      addTo(similar ?? `${prefix}:${key}`, transaction, keyword ? { keyword } : {})
     }
   }
 
@@ -163,6 +166,9 @@ export function detectSubscriptions(input: readonly Transaction[], options: Dete
     } else if (group.via) {
       confidence = 'medium'
       reasons.push(`Payé via ${group.via.displayName}, qui ne précise pas le service. Une capture de la page des abonnements du store le retrouverait.`)
+    } else if (group.keyword) {
+      confidence = 'medium'
+      reasons.push(`Le libellé ressemble à un abonnement (${group.keyword.word}).`)
     } else if (isSepa) {
       confidence = 'medium'
       reasons.push("Prélèvement d'un organisme que je ne connais pas : à toi de dire si c'est un abonnement.")
@@ -199,7 +205,7 @@ export function detectSubscriptions(input: readonly Transaction[], options: Dete
       id: `sub:${group.key}`,
       ...(group.service ? { serviceId: group.service.id } : {}),
       displayName,
-      category: group.service?.category ?? (fromStore?.trialEndsAt ? 'essai' : 'autre'),
+      category: group.service?.category ?? group.keyword?.category ?? (fromStore?.trialEndsAt ? 'essai' : 'autre'),
       ...(amountCents !== undefined ? { amountCents } : {}),
       period,
       periodIsEstimated,

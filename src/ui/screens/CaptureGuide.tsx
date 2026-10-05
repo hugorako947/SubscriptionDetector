@@ -87,7 +87,7 @@ export function CaptureGuide() {
         return
       }
       setLastSummary(summary)
-      navigate(ROUTES.home, { replace: true })
+      navigate(ROUTES.subscriptions, { replace: true })
     } catch (cause) {
       console.error(cause)
       setProgress(null)

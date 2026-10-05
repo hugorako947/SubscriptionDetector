@@ -23,6 +23,8 @@ export interface AnalysisProgress {
 
 export interface AnalysisSummary {
   screenshots: number
+  /** Lines with an amount that were read (shown when nothing is found). */
+  operations: number
   unreadable: number
   found: number
   added: number
@@ -71,6 +73,7 @@ export async function analyzeScreenshots(files: readonly File[], onProgress: (p:
   void requestPersistence()
   return {
     screenshots: files.length,
+    operations: transactions.filter((t) => t.amountCents !== undefined).length,
     unreadable,
     found: result.subscriptions.length,
     added: saved.added,

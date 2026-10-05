@@ -64,6 +64,8 @@ const ENTRIES: Entry[] = [
   ['bouygues-telecom', 'Bouygues Telecom', 'telephonie', 'monthly', ['BOUYGUES TELECOM', 'BOUYGUES TEL', 'BYTEL']],
   ['free', 'Free', 'telephonie', 'monthly', ['FREE MOBILE', 'FREE TELECOM', 'FREEBOX']],
   ['b-and-you', 'B&You', 'telephonie', 'monthly', ['B&YOU', 'B AND YOU', 'BANDYOU']],
+  // Transports. TODO(vérifier) the usual period (monthly debits for the yearly passes?).
+  ['navigo', 'Navigo / Imagine R', 'transport', 'monthly', ['PASS NAVIGO', 'NAVIGO', 'IMAGINE R', 'IMAGIN R']],
   // Applis et jeux
   ['chatgpt', 'ChatGPT', 'applis', 'monthly', ['OPENAI', 'CHATGPT']],
   ['adobe', 'Adobe', 'applis', 'unknown', ['ADOBE']],
@@ -109,5 +111,6 @@ export const CATEGORY_LABELS: Record<Category, string> = {
   banque: 'Options bancaires',
   applis: 'Applis et jeux',
   essai: 'Essais gratuits',
+  transport: 'Transports',
   autre: 'Autres',
 }

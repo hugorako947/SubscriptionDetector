@@ -36,7 +36,8 @@ const MONTHS: Array<[RegExp, number]> = [
   [/^dec(embre)?$/, 12],
 ]
 
-const WEEKDAYS = /\b(lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche)\b/g
+/** Full and abbreviated weekdays (« Lundi », « Lun. »). « mar » never matches « mars »: word boundary. */
+const WEEKDAYS = /\b(lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche|lun|mar|mer|jeu|ven|sam|dim)\b\.?/g
 
 export function monthFromWord(word: string): number | null {
   const clean = stripAccents(word.toLowerCase()).replace(/\.$/, '')

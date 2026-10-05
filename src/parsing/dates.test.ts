@@ -46,3 +46,13 @@ describe('isDateHeader', () => {
     expect(isDateHeader(text, ref)).toBe(false),
   )
 })
+
+describe('abbreviated weekdays (« Lun. 18 mai »)', () => {
+  it.each(['Lun. 18 mai', 'Sam. 16 mai >', 'Mar. 5 mai', 'Jeu. 30 avr.'])('%s is a date line', (text) => {
+    expect(isDateHeader(text, ref)).toBe(true)
+  })
+  it('does not take « 5 mars » for a weekday', () => {
+    expect(parseDate('5 mars', ref)?.iso).toBe('2026-03-05')
+    expect(isDateHeader('5 mars', ref)).toBe(true)
+  })
+})

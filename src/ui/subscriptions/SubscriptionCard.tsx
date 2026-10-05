@@ -48,6 +48,22 @@ export function SubscriptionCard({ item, today, onOpen }: { item: StoredSubscrip
         </span>
         {pending && item.reasons[0] && <span className="mt-1.5 block text-sm">{item.reasons[0]}</span>}
       </button>
+      {item.period === 'unknown' && item.amountCents !== undefined && !cancelled && (
+        <div className="flex flex-wrap items-center gap-2 border-t border-line px-4 py-2">
+          <span className="text-sm text-muted">Fréquence :</span>
+          {(['monthly', 'yearly'] as const).map((period) => (
+            <button
+              key={period}
+              type="button"
+              onClick={() => void editSubscription(item.id, { period })}
+              aria-label={`${item.displayName} : ${PERIOD_LABELS[period]}`}
+              className="min-h-11 rounded-full border border-accent px-4 text-sm font-bold text-accent"
+            >
+              {period === 'monthly' ? 'Par mois' : 'Par an'}
+            </button>
+          ))}
+        </div>
+      )}
       {pending && (
         <div className="grid grid-cols-2 gap-2 border-t border-line p-2">
           <button

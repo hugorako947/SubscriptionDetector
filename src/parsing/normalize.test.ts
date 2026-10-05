@@ -35,3 +35,12 @@ describe('detectPaymentKind', () => {
     expect(detectPaymentKind(label)).toBe(kind)
   })
 })
+
+describe('people are transfers (never displayed)', () => {
+  it.each(['M DURAND PAUL', 'MME MARTIN CLAIRE', 'M. DUPONT', 'M ET MME DURAND', 'MONSIEUR PAUL DURAND'])('%s → transfer', (label) => {
+    expect(detectPaymentKind(label)).toBe('transfer')
+  })
+  it.each(['M6 PLUS', 'MUTUELLE EXEMPLE', 'MAXI ZOO'])('%s is not a person', (label) => {
+    expect(detectPaymentKind(label)).not.toBe('transfer')
+  })
+})

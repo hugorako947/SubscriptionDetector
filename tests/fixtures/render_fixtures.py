@@ -80,6 +80,52 @@ DEBITS_HTML = """<html><head><style>
   <div class="row"><div class="name">ONDEA MUSIQUE</div><div class="meta">Mandat actif</div></div>
 </body></html>"""
 
+# Layout seen on a real app (dark mode, date under each label, icons on the left,
+# a label on two lines). Every name and amount here is invented.
+DATE_UNDER_ROWS = [
+    ('REMISE COTISATIONS', 'Lun. 18 mai', '+9,95 €', True),
+    ('COTISATIONS BANCAIRES', 'Lun. 18 mai', '−15,95 €', False),
+    ('M DURAND PAUL', 'Sam. 16 mai', '−10,00 €', False),
+    ('PASS NAVIGO / IMAGIN-R', 'Mer. 6 mai', '−50,00 €', False),
+    ('MUTUELLE EXEMPLE', 'Mar. 5 mai', '−23,10 €', False),
+    ('DEBIT DIFFERE N° ...1234', 'Lun. 4 mai', '−250,00 €', False),
+    ('BANQUE EXEMPLE ILE<br>DE FRANCE', 'Lun. 4 mai', '−5,40 €', False),
+    ('VIREMENT MENSUEL', 'Lun. 4 mai', '−20,00 €', False),
+    ('CB EPICERIE DU COIN', 'Sam. 2 mai', '−8,30 €', False),
+]
+
+def date_under_html(rows) -> str:
+    items = ''.join(
+        f'<div class="row"><div class="icon"></div><div class="text"><div class="label">{label}</div>'
+        f'<div class="date">{date}</div></div><div class="amount{" credit" if credit else ""}">{amount}</div></div>'
+        for label, date, amount, credit in rows
+    )
+    return f"""<html><head><style>
+      body {{ margin:0; background:#000; color:#fff; font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; }}
+      .head {{ background:#2a2a2a; text-align:center; padding: 40px 16px 0; }}
+      .title {{ font-size: 18px; }} .balance {{ font-size: 32px; color:#3fbf6a; margin: 6px 0; }}
+      .sub {{ font-size: 13px; color:#bbb; }}
+      .line {{ display:flex; justify-content:space-between; font-size: 15px; color:#ddd; padding: 12px 0 4px; text-align:left; }}
+      .tabs {{ display:flex; gap: 18px; font-size: 15px; padding: 10px 0; color:#ccc; }}
+      .row {{ display:flex; align-items:center; gap: 12px; padding: 12px 16px; }}
+      .icon {{ width: 36px; height: 36px; border-radius: 50%; background:#3f8f86; flex: none; }}
+      .text {{ flex: 1; }} .label {{ font-size: 15px; }} .date {{ font-size: 13px; color:#aaa; margin-top: 3px; }}
+      .amount {{ font-size: 15px; white-space: nowrap; }} .credit {{ color:#3fbf6a; background:#123; padding: 2px 4px; border-radius: 4px; }}
+    </style></head><body>
+      <div class="head"><div class="title">Compte individuel</div><div class="balance">1 234,56 €</div>
+      <div class="sub">Solde au 05 oct. 2026</div>
+      <div class="line"><span>Encours carte à débit différé</span><span>−9,38 €</span></div>
+      <div class="tabs"><span>Historique</span><span>À venir (−10,00 €)</span><span>Gérer</span></div></div>
+      {items}
+    </body></html>"""
+
+NOTHING_ROWS = [
+    ('CB BOULANGERIE', 'Lun. 4 mai', '−4,20 €', False),
+    ('M DURAND PAUL', 'Sam. 2 mai', '−30,00 €', False),
+    ('CB SUPERMARCHE', 'Ven. 1 mai', '−38,74 €', False),
+    ('VIREMENT RECU', 'Jeu. 30 avr.', '+50,00 €', True),
+]
+
 with sync_playwright() as p:
     browser = p.chromium.launch(executable_path=os.environ.get('CHROME_PATH') or None)
     for dark in (False, True):
@@ -88,7 +134,12 @@ with sync_playwright() as p:
         name = 'banque-fictive-sombre.png' if dark else 'banque-fictive-clair.png'
         page.screenshot(path=str(HERE / 'images' / name))
         page.close()
-    for name, content in (('store-fictif.png', STORE_HTML), ('prelevements-fictifs.png', DEBITS_HTML)):
+    for name, content in (
+        ('store-fictif.png', STORE_HTML),
+        ('prelevements-fictifs.png', DEBITS_HTML),
+        ('banque-date-sous-libelle.png', date_under_html(DATE_UNDER_ROWS)),
+        ('banque-sans-abonnement.png', date_under_html(NOTHING_ROWS)),
+    ):
         page = browser.new_page(viewport={'width': 390, 'height': 844}, device_scale_factor=3)
         page.set_content(content)
         page.screenshot(path=str(HERE / 'images' / name))
