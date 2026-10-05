@@ -2,7 +2,7 @@
 
 Application web progressive (PWA) qui lit des captures d'écran sur le téléphone de l'utilisateur pour dresser la liste de ses abonnements, avec le total mensuel et annuel. Aucune donnée ne quitte l'appareil.
 
-Avancement : **phase 1** terminée (squelette, PWA installable, accueils PC et mobile, guide d'installation). Plan complet et décisions : `docs/decisions.md`.
+Avancement : **phase 2** terminée (lecture OCR locale des captures, écran `/debug`). Phase 1 : squelette, PWA installable, accueils PC et mobile, guide d'installation. Plan complet et décisions : `docs/decisions.md`.
 
 ## Démarrer (Windows, PowerShell)
 
@@ -22,17 +22,21 @@ Autres commandes : `npm run lint` (oxlint), `npm run typecheck`, `npm run build`
 ## Organisation
 
 ```text
+config/ocr-assets.ts         copie des fichiers OCR dans public/ocr (non versionné)
 config/security-headers.ts   CSP et en-têtes : source unique (aperçu + dist/_headers)
 design/                      sources SVG des icônes et script de génération des PNG
 docs/                        décisions, déploiement, points à vérifier
 public/icons/                icônes de la PWA
+tests/fixtures/              captures fictives et leur script de génération
 src/app/                     routeur maison, routes, adresse du QR code
+src/debug/                   écran /debug (hors production)
 src/domain/                  types partagés, montants en centimes
+src/ocr/                     prétraitement, moteur tesseract.js, reconstruction des lignes
 src/pwa/                     plateforme, installation, service worker
 src/ui/                      écrans, composants, illustrations, aperçu fictif
 ```
 
-Les dossiers `ocr/`, `parsing/`, `detection/`, `sources/`, `data/`, `storage/`, `reminders/`, `metrics/` et `debug/` arriveront dans les phases 2 à 6.
+Les dossiers `parsing/`, `detection/`, `sources/`, `data/`, `storage/`, `reminders/`, et `metrics/` arriveront dans les phases 2 à 6.
 
 ## Principes
 

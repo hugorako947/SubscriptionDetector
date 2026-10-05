@@ -55,3 +55,17 @@ Aucune donnée de l'utilisateur ne quitte l'appareil, l'appli marche en mode avi
 **Accueil mobile.** Le bouton « Trouver mes abonnements » mène à l'installation, ou directement au guide de capture si l'appli est déjà installée.
 
 **Données de l'aperçu.** Services et montants inventés (`src/ui/preview/sampleData.ts`), affichés avec la mention « Exemple fictif ».
+
+## Décisions de la phase 2
+
+**Fichiers du moteur servis par le site.** `config/ocr-assets.ts` copie dans `public/ocr/` (non versionné) le worker, les trois cœurs LSTM et `fra.traineddata.gz`. Le précache passe à 18 entrées (environ 12,6 Mo) avec `maximumFileSizeToCacheInBytes` à 5 Mio. Un test vérifie la présence des fichiers et leur taille.
+
+**Options de tesseract.js 7.0.0**, vérifiées dans son code source : `corePath` est un dossier (la bibliothèque y ajoute la variante choisie), les chemins sont absolus (un chemin relatif serait résolu depuis le worker), `workerBlobURL: false` garde la CSP `worker-src 'self'`, et `cacheMethod: 'none'` évite une copie des données de langue dans IndexedDB, puisque le service worker les garde déjà hors ligne.
+
+**Prétraitement par défaut** : gris, inversion automatique des captures en mode sombre (niveau de gris moyen < 110), renforcement du contraste entre les 1er et 99e centiles, pas de noir et blanc (le modèle LSTM travaille mieux sur les niveaux de gris ; Otsu reste disponible dans l'écran de débogage). Agrandissement ×2 seulement sous 1000 px de large, et jamais plus de 12 millions de pixels.
+
+**Lignes reconstruites par recouvrement vertical** des mots (au moins 50 % de la plus petite hauteur), et découpées en segments quand l'écart horizontal dépasse 1,5 hauteur de ligne. Sur la capture fictive, le montant, centré entre le libellé et la mention « Prélèvement », forme sa propre ligne : le rattacher au bon libellé est le travail du parsing (phase 3).
+
+**Écran `/debug`** construit partout sauf en production sur Cloudflare Pages (`CF_PAGES_BRANCH === 'main'`, à vérifier) : il disparaît du bundle de production. Il prépare le moteur dès l'ouverture et le libère en sortant, garde seulement un aperçu JPEG réduit de chaque image, et affiche les erreurs dans la page (pas d'inspecteur Safari sans Mac).
+
+**Mesures sur les captures fictives** (Chromium sur Linux, pas un téléphone) : moteur prêt en 0,6 à 1 s ; 0,6 à 1,7 s de lecture par capture de 1170 × 2532 px ; confiance moyenne 89 à 91. Le mode hors ligne fonctionne, aucune requête hors du site, aucune violation de CSP. Les accents des majuscules sont parfois perdus (« ONDEA »), le signe « − » est lu « - », et un petit artefact de confiance très basse (« RL », 18 à 22) apparaît : ces points seront traités au parsing.

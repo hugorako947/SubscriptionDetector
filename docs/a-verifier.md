@@ -24,7 +24,10 @@ Tout ce qui n'a pas pu être confirmé depuis l'environnement de développement.
 - [ ] Liens directs vers les abonnements : https://apps.apple.com/account/subscriptions et https://play.google.com/store/account/subscriptions
 - [ ] Geste de capture d'écran selon les modèles de téléphone.
 - [ ] Prix affichés ou non dans les listes d'abonnements de l'App Store et de Google Play.
-- [ ] `'wasm-unsafe-eval'` et worker sans URL `blob:` sur Safari iOS.
+- [ ] `'wasm-unsafe-eval'` et worker sans URL `blob:` sur Safari iOS : ouvrir `/debug` sur l'iPhone, le moteur doit afficher « prêt ».
+- [ ] Temps de lecture d'une capture sur un vrai téléphone (iPhone et Android d'entrée de gamme).
+- [ ] Décodage des photos HEIC de l'iPhone par `createImageBitmap` (les captures d'écran sont normalement en PNG).
+- [ ] Nom de la variable de branche du build Cloudflare Pages (`CF_PAGES_BRANCH`), qui exclut `/debug` de la production (`vite.config.ts`).
 - [ ] Limite de taille des canvas sur iPhone.
 - [ ] Valeur de `File.lastModified` pour une image choisie dans la galerie de l'iPhone.
 - [ ] Prise en charge d'OffscreenCanvas par Safari.

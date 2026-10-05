@@ -125,6 +125,10 @@ Le téléphone accède à ton PC comme s'il s'agissait de son propre `localhost`
 
 Pour l'iPhone, l'inspecteur de Safari exige un Mac. Sans Mac, on s'appuiera sur l'écran de débogage de la phase 2, qui affichera les erreurs dans la page.
 
+## Écran de débogage OCR (phase 2)
+
+`/debug` existe en local, avec `npm run telephone` et dans les aperçus de branche, mais pas en production (branche `main` sur Cloudflare Pages). Pour l'essayer sur le téléphone, ouvre `ADRESSE/debug`, choisis des captures et touche « Lire les captures ».
+
 ## Liste de vérification sur téléphone (fin de phase 1)
 
 - [ ] Le QR code de l'accueil PC ouvre l'appli sur le téléphone.
