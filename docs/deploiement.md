@@ -83,8 +83,17 @@ npm run preview:prod
 Terminal 2 :
 
 ```powershell
-cloudflared tunnel --url http://localhost:4173
+npm run tunnel
 ```
+
+Ce script lance `cloudflared tunnel --url http://127.0.0.1:4173`. L'adresse est écrite `127.0.0.1` et non `localhost` : sous Windows, `localhost` peut désigner l'IPv6 (`::1`) pour Node et l'IPv4 pour cloudflared. Le tunnel ne trouve alors pas le serveur, et Cloudflare affiche « Bad gateway, Error code 502 ». L'aperçu écoute donc toujours sur `127.0.0.1:4173` (`vite.config.ts`).
+
+En cas de 502 malgré tout :
+
+- vérifie que le terminal 1 tourne encore et affiche `http://127.0.0.1:4173/` ;
+- `curl.exe -sI http://127.0.0.1:4173/` doit répondre `HTTP/1.1 200 OK` ;
+- `netstat -ano | findstr :4173` montre sur quelle adresse le serveur écoute ;
+- lis la dernière erreur du terminal 2 (ligne `ERR ... dial tcp ...`).
 
 cloudflared affiche une adresse en `https://….trycloudflare.com`. Ouvre-la sur ton PC et scanne le QR code. `vite.config.ts` autorise déjà ces adresses (`preview.allowedHosts`) ; sans ce réglage, Vite refuserait la connexion.
 

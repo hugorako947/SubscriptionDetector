@@ -61,6 +61,12 @@ export default defineConfig({
     }),
   ],
   preview: {
+    // Fixed IPv4 address and port: on Windows, "localhost" can resolve to IPv6 (::1)
+    // for Node but to IPv4 for cloudflared, which then answers 502. strictPort stops
+    // Vite from silently moving to 4174 when 4173 is taken.
+    host: '127.0.0.1',
+    port: 4173,
+    strictPort: true,
     // The real CSP is applied locally too, so it is tested before every deploy.
     headers: securityHeaders,
     // Free Cloudflare quick tunnel used to test on a phone over HTTPS (docs/deploiement.md).

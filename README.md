@@ -13,7 +13,8 @@ cd C:\dev\detecteur-abonnements
 npm ci                   # installe exactement les versions du lockfile
 npm test                 # tests unitaires (Vitest)
 npm run dev              # développement : http://localhost:5173 (sans service worker)
-npm run preview:prod     # build + aperçu avec la vraie CSP : http://localhost:4173
+npm run preview:prod     # build + aperçu avec la vraie CSP : http://127.0.0.1:4173
+npm run tunnel           # (2e fenêtre) adresse HTTPS temporaire pour tester sur téléphone
 ```
 
 Autres commandes : `npm run lint` (oxlint), `npm run typecheck`, `npm run build`.
