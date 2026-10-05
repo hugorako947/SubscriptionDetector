@@ -28,6 +28,7 @@ describe('resolveRoute', () => {
     expect(resolveRoute('/')).toBe('home')
     expect(resolveRoute('/installer/')).toBe('install')
     expect(resolveRoute('/captures?from=home')).toBe('captures')
+    expect(resolveRoute('/debug')).toBe('debug')
   })
   it('returns notFound for unknown paths', () => {
     expect(resolveRoute('/inconnu')).toBe('notFound')

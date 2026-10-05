@@ -17,10 +17,20 @@ function securityHeadersFile(): Plugin {
   }
 }
 
+/**
+ * OCR debug screen (shows raw text, possibly personal data): built everywhere
+ * except the production deploy on the main branch (decision H13).
+ * TODO(vérifier) the name of Cloudflare Pages' branch variable (CF_PAGES_BRANCH).
+ */
+const debugScreen = process.env.CF_PAGES_BRANCH !== 'main'
+
 const THEME_COLOR = '#1d6a56'
 const BACKGROUND_COLOR = '#f5f7f5'
 
 export default defineConfig({
+  define: {
+    __DEBUG_SCREEN__: JSON.stringify(debugScreen),
+  },
   plugins: [
     react(),
     tailwindcss(),

@@ -1,11 +1,13 @@
 /**
  * Pure routing helpers (no React, no DOM) so they can be unit-tested.
- * Hidden routes (/test, /debug) will be added in later phases.
+ * The hidden /test route arrives in phase 6.
  */
 export const ROUTES = {
   home: '/',
   install: '/installer',
   captures: '/captures',
+  /** OCR debug screen: only in non-production builds (decision H13). */
+  debug: '/debug',
 } as const
 
 export type RouteId = keyof typeof ROUTES | 'notFound'
