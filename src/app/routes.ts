@@ -6,6 +6,8 @@ export const ROUTES = {
   home: '/',
   install: '/installer',
   captures: '/captures',
+  subscriptions: '/abonnements',
+  memory: '/memoire',
   /** OCR debug screen: only in non-production builds (decision H13). */
   debug: '/debug',
 } as const

@@ -3,9 +3,13 @@ import { useRoute } from './app/router'
 import type { RouteId } from './app/routes'
 import { useIsDesktop } from './pwa/environment'
 import { UpdateBanner } from './pwa/UpdateBanner'
-import { Captures } from './ui/screens/Captures'
+import { listSubscriptions } from './storage/db'
+import { useLive } from './storage/useLive'
+import { CaptureGuide } from './ui/screens/CaptureGuide'
+import { Dashboard } from './ui/screens/Dashboard'
 import { DesktopHome } from './ui/screens/DesktopHome'
 import { Install } from './ui/screens/Install'
+import { MemoryList } from './ui/screens/MemoryList'
 import { MobileHome } from './ui/screens/MobileHome'
 import { NotFound } from './ui/screens/NotFound'
 
@@ -15,7 +19,9 @@ const DebugOcr = __DEBUG_SCREEN__ ? lazy(() => import('./debug/DebugOcr')) : nul
 const TITLES: Record<RouteId, string> = {
   home: "Détecteur d'abonnements",
   install: "Installer l'appli · Détecteur d'abonnements",
-  captures: "Guide de capture · Détecteur d'abonnements",
+  captures: "Captures d'écran · Détecteur d'abonnements",
+  subscriptions: "Mes abonnements · Détecteur d'abonnements",
+  memory: "Liste mémoire · Détecteur d'abonnements",
   debug: "Débogage OCR · Détecteur d'abonnements",
   notFound: "Page introuvable · Détecteur d'abonnements",
 }
@@ -32,17 +38,27 @@ function useFocusTitleOnNavigation(route: RouteId) {
   }, [route])
 }
 
+/** Home: the dashboard as soon as the user has a list, the welcome page otherwise. */
+function Home() {
+  const items = useLive(listSubscriptions)
+  const isDesktop = useIsDesktop()
+  if (items === undefined) return <div className="min-h-dvh" />
+  if (items.length > 0) return <Dashboard />
+  return isDesktop ? <DesktopHome /> : <MobileHome />
+}
+
 export default function App() {
   const route = useRoute()
-  const isDesktop = useIsDesktop()
   useFocusTitleOnNavigation(route)
 
   return (
     <>
       <UpdateBanner />
-      {route === 'home' && (isDesktop ? <DesktopHome /> : <MobileHome />)}
+      {route === 'home' && <Home />}
       {route === 'install' && <Install />}
-      {route === 'captures' && <Captures />}
+      {route === 'captures' && <CaptureGuide />}
+      {route === 'subscriptions' && <Dashboard />}
+      {route === 'memory' && <MemoryList />}
       {route === 'debug' &&
         (DebugOcr ? (
           <Suspense fallback={null}>
