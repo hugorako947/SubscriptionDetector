@@ -3,6 +3,7 @@ import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
 import { defineConfig, type Plugin } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
+import { ocrAssets } from './config/ocr-assets.ts'
 import { buildHeadersFile, securityHeaders } from './config/security-headers.ts'
 
 /** Writes dist/_headers from the single CSP source (config/security-headers.ts). */
@@ -23,6 +24,7 @@ export default defineConfig({
   plugins: [
     react(),
     tailwindcss(),
+    ocrAssets(),
     securityHeadersFile(),
     VitePWA({
       // 'prompt' rather than 'autoUpdate': an automatic reload in the middle of
@@ -51,9 +53,11 @@ export default defineConfig({
         ],
       },
       workbox: {
-        // Everything needed offline is precached. OCR files (phase 2) will be
-        // added here and maximumFileSizeToCacheInBytes raised (Workbox default: 2 MiB).
-        globPatterns: ['**/*.{js,css,html,svg,png,woff2}'],
+        // Everything needed offline is precached, OCR engine included (public/ocr/,
+        // copied by config/ocr-assets.ts). Each core variant is ~3.9 MB: the
+        // Workbox default limit (2 MiB) would silently leave them out.
+        globPatterns: ['**/*.{js,css,html,svg,png,woff2}', 'ocr/*.gz'],
+        maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
         navigateFallback: 'index.html',
         cleanupOutdatedCaches: true,
       },
