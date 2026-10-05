@@ -57,8 +57,8 @@ describe('detectSubscriptions', () => {
     ])
     expect(result.subscriptions.map((s) => [s.displayName, s.confidence])).toEqual([['Cineflux', 'medium']])
     expect(result.otherDebits.map((s) => s.reasons[0])).toEqual([
-      'Impôts ou taxes : prélèvement, mais pas un abonnement.',
-      'Crédit ou prêt : prélèvement, mais pas un abonnement.',
+      'Impôts ou taxes : prélèvement, mais pas un abonnement.',
+      'Crédit ou prêt : prélèvement, mais pas un abonnement.',
     ])
     expect(totals([...result.subscriptions, ...result.otherDebits]).withoutAmount).toBe(1)
   })
@@ -111,7 +111,7 @@ describe('detectSubscriptions', () => {
   it('asks for the amount when the debits page shows names only', () => {
     const [sub] = detectSubscriptions([tx('ONDEA MUSIQUE', { source: 'screenshot_bank_debits', kind: 'sepa' })]).subscriptions
     expect(sub).toMatchObject({ needsAmount: true, confidence: 'medium' })
-    expect(sub?.reasons).toContain('Montant absent de la capture : à compléter.')
+    expect(sub?.reasons).toContain('Montant absent de la capture : à compléter.')
   })
 })
 

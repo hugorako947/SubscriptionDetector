@@ -101,3 +101,35 @@ Les crédits et les virements sont écartés, et le texte d'un virement n'est ja
 **Fréquence et totaux** : la fréquence lue sur le store ou détectée dans les dates prime ; sinon la fréquence habituelle du service, signalée comme estimée. Sans fréquence, l'abonnement n'entre pas dans le total et l'utilisateur la précisera (phase 4). Prochaine échéance : date du store, sinon dernier paiement plus une période.
 
 **Tests** : 182 tests, dont la chaîne complète sur la sortie OCR réelle des quatre captures fictives (`tests/fixtures/ocr/`, produite par l'écran `/debug`), en mode clair et sombre.
+
+## Décisions de la phase 4
+
+**Parcours complet, sans `/debug`** : accueil, installation, guide de capture, import, analyse, puis tableau de bord. Une fois qu'une liste existe, l'accueil de l'appli devient le tableau de bord.
+
+**Guide de capture** : les trois pages à capturer, chacune avec un exemple visuel fictif, le geste de capture selon le système et les liens vers les abonnements des stores (à vérifier). Un seul bouton « Choisir mes captures » ouvre la galerie avec sélection multiple, sans attribut `capture`. Sur PC, une zone de glisser-déposer s'ajoute.
+
+**Type de capture deviné** : l'utilisateur ne dit jamais quelle page il importe. `sources/screenshots/classify.ts` reconnaît la page du store, la page des prélèvements ou l'historique, d'après les mots et les montants lus (testé sur les sorties OCR réelles des captures fictives).
+
+**Analyse** : progression « Lecture de la capture 2 sur 4 » avec une barre accessible ; moteur OCR libéré à la fin ; image libérée dès qu'elle est lue. La date du fichier sert de date de capture quand elle est plausible (H11, à vérifier sur iPhone).
+
+**Tableau de bord** :
+- le total mensuel et annuel en tête, avec le nombre d'abonnements sans montant ou sans fréquence, qui ne sont pas comptés ;
+- les économies possibles quand des abonnements sont marqués « À résilier » ;
+- « Bientôt » : renouvellements et fins d'essai des 30 prochains jours, à chaque ouverture ;
+- « À vérifier » : les détections, avec la raison et deux réponses en un geste (« Oui, c'en est un » ou « Non ») ;
+- « Mes abonnements », « Autres prélèvements » (repliés, hors total) et « Écartés » (repliés, restaurables) ;
+- un seul bouton principal, « Ajouter » : d'autres captures, la liste mémoire, un abonnement à la main ou un essai gratuit.
+
+**Fiche d'un abonnement** (fenêtre `<dialog>` native : focus gardé, Échap ferme) : tous les champs se corrigent, avec le statut choisi par l'utilisateur (« Je garde », « À résilier », « Résilié »). La fiche montre aussi pourquoi l'abonnement a été repéré, avec la ligne lue. Pour un abonnement venu d'une page de store marqué « À résilier », elle propose les liens vers les abonnements App Store et Google Play. Aucun lien de résiliation propre à un service : rien n'est inventé.
+
+**Statut réel** : l'appli ne peut pas savoir si un abonnement est réellement résilié ; elle affiche ce que l'utilisateur déclare. Un abonnement « Résilié » sort du total et des rappels.
+
+**Liste mémoire** : les dix catégories du cahier des charges. Chaque catégorie propose les services du dictionnaire, ou des exemples génériques (assurances, options bancaires) ; un toucher ouvre la fiche pré-remplie. Une case « Vu » par catégorie, avec un compteur de progression.
+
+**Essai express** : un nom et une date de fin (par défaut dans 7 jours), le prix ensuite en option.
+
+**Rappels** : fichier `.ics` (RFC 5545) avec un événement par renouvellement (répété selon la fréquence, rappel la veille) et par fin d'essai (rappel deux jours avant). Lignes repliées à 75 octets sans couper un caractère accentué. Comportement sur iPhone à vérifier.
+
+**Stockage** : Dexie (IndexedDB), version 1 du schéma. Une nouvelle analyse ne touche jamais ce que l'utilisateur a confirmé ou écarté ; elle met à jour les détections encore « à vérifier » et ajoute les nouvelles. L'appli demande au navigateur un stockage persistant. « Tout effacer » supprime la base entière après confirmation.
+
+**Tests** : 205 tests unitaires. Parcours complet vérifié dans Chromium avec les quatre captures fictives (environ 6 s d'analyse) : corrections, statut « À résilier » et économies, essai gratuit, liste mémoire, fichier `.ics`, rechargement, mode hors ligne et « Tout effacer ». Aucune violation de CSP ni erreur dans la console.

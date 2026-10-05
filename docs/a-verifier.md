@@ -37,6 +37,12 @@ Tout ce qui n'a pas pu être confirmé depuis l'environnement de développement.
 - [ ] Préfixes et marqueurs de type de paiement sur de vrais relevés (`src/parsing/normalize.ts`).
 - [ ] Textes exacts des pages d'abonnements de l'App Store et de Google Play en français : renouvellement, essai, sections des abonnements expirés (`src/parsing/store.ts`).
 
+## Parcours (phase 4)
+
+- [ ] Geste de capture affiché dans le guide : bouton latéral + volume haut (iPhone), Marche/Arrêt + volume bas (Android), selon les modèles (`src/ui/screens/CaptureGuide.tsx`).
+- [ ] Reconnaissance automatique du type de capture sur de vraies pages de plusieurs banques et des deux stores (`src/sources/screenshots/classify.ts`).
+- [ ] Sélection multiple dans la galerie et décodage des images sur iPhone et Android.
+
 ## Rappels (phase 4)
 
 - [ ] Export `.ics` sur iPhone, en particulier en mode installé.

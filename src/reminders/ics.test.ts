@@ -49,7 +49,7 @@ describe('buildIcs', () => {
   })
 
   it('escapes commas and semicolons', () => {
-    expect(content).toContain("Fin de l'essai gratuit : Appli\\, photo\\; pro")
+    expect(content).toContain("Fin de l'essai gratuit : Appli\\, photo\\; pro")
   })
 })
 

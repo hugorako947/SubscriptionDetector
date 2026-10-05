@@ -2,7 +2,7 @@
 
 Application web progressive (PWA) qui lit des captures d'écran sur le téléphone de l'utilisateur pour dresser la liste de ses abonnements, avec le total mensuel et annuel. Aucune donnée ne quitte l'appareil.
 
-Avancement : **phase 3** terminée (lecture des montants, dates et libellés, moteur de détection, dictionnaire de services). Phase 2 : lecture OCR locale, écran `/debug`. Phase 1 : squelette, PWA installable, accueils, guide d'installation. Plan complet et décisions : `docs/decisions.md`.
+Avancement : **phase 4** terminée (parcours complet : guide de capture, import, analyse, tableau de bord, liste mémoire, essais, rappels .ics, Tout effacer). Phase 3 : moteur de détection. Phase 2 : lecture OCR locale, écran `/debug`. Phase 1 : squelette, PWA installable, accueils, guide d'installation. Plan complet et décisions : `docs/decisions.md`.
 
 ## Démarrer (Windows, PowerShell)
 
@@ -36,11 +36,13 @@ src/domain/                  types partagés, montants en centimes
 src/ocr/                     prétraitement, moteur tesseract.js, reconstruction des lignes
 src/parsing/                  montants, dates, libellés, mise en page, pages des stores
 src/pwa/                     plateforme, installation, service worker
+src/reminders/               fichier calendrier .ics
 src/sources/                 adaptateurs d'entrée (captures ; CSV et PDF plus tard)
+src/storage/                 stockage local (Dexie), Tout effacer
 src/ui/                      écrans, composants, illustrations, aperçu fictif
 ```
 
-Les dossiers `storage/`, `reminders/` et `metrics/` arriveront dans les phases 4 à 6.
+Le dossier `metrics/` (mode test et mesures) arrivera en phase 6.
 
 ## Principes
 

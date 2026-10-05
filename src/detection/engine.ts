@@ -153,19 +153,19 @@ export function detectSubscriptions(input: readonly Transaction[], options: Dete
 
     if (group.service) {
       confidence = 'high'
-      reasons.push(`Reconnu dans la liste des services : ${group.service.displayName}.`)
+      reasons.push(`Reconnu dans la liste des services : ${group.service.displayName}.`)
     } else if (fromStore) {
       confidence = 'high'
       reasons.push("Listé sur la page des abonnements du store.")
     } else if (group.otherReason) {
       confidence = 'medium'
-      reasons.push(`${group.otherReason} : prélèvement, mais pas un abonnement.`)
+      reasons.push(`${group.otherReason} : prélèvement, mais pas un abonnement.`)
     } else if (group.via) {
       confidence = 'medium'
       reasons.push(`Payé via ${group.via.displayName}, qui ne précise pas le service. Une capture de la page des abonnements du store le retrouverait.`)
     } else if (isSepa) {
       confidence = 'medium'
-      reasons.push("Prélèvement d'un organisme que je ne connais pas : à toi de dire si c'est un abonnement.")
+      reasons.push("Prélèvement d'un organisme que je ne connais pas : à toi de dire si c'est un abonnement.")
     } else if (periodicity) {
       confidence = periodicity.occurrences >= 3 ? 'medium' : 'low'
       reasons.push(`Même marchand et montant proche, ${periodicity.occurrences} fois, ${PERIOD_WORDS[periodicity.period]}.`)
@@ -180,9 +180,9 @@ export function detectSubscriptions(input: readonly Transaction[], options: Dete
     const hintedPeriod = fromStore?.periodHint && fromStore.periodHint !== 'unknown' ? fromStore.periodHint : undefined
     const period: Period = hintedPeriod ?? periodicity?.period ?? group.service?.usualPeriod ?? 'unknown'
     const periodIsEstimated = !hintedPeriod && !periodicity
-    if (periodIsEstimated && period !== 'unknown') reasons.push('Fréquence estimée : la fréquence habituelle de ce service.')
-    if (amountCents === undefined) reasons.push('Montant absent de la capture : à compléter.')
-    else if (period === 'unknown') reasons.push(`Montant lu : ${formatEuros(amountCents)}, fréquence inconnue.`)
+    if (periodIsEstimated && period !== 'unknown') reasons.push('Fréquence estimée : la fréquence habituelle de ce service.')
+    if (amountCents === undefined) reasons.push('Montant absent de la capture : à compléter.')
+    else if (period === 'unknown') reasons.push(`Montant lu : ${formatEuros(amountCents)}, fréquence inconnue.`)
 
     const nextRenewal = fromStore?.renewalDate ?? (last.date ? nextRenewalFrom(last.date, period) : undefined)
     const named = transactions.find((t) => t.amountCents !== undefined) ?? last
